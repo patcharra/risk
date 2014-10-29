@@ -61,7 +61,8 @@ $count=1;
 <tr><td>ความเสี่ยง</td><td><input type="text" name="risk"><font color='red'> * </font></td></tr>
 <tr><td>ปัจจัยเสี่ยง</td><td>
 
-1. <input type="text" name="riskFactor" ><font color='red'> * </font> <button class="addRiskFactorBrn">+</button>
+1. <input type="text" name="riskFactor1" ><font color='red'> * </font><br>
+2. <input type="text" name="riskFactor2" ><font color='red'> * </font> <button class="addRiskFactorBrn">+</button>
 
 
 
