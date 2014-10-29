@@ -64,9 +64,8 @@ $count=1;
 1. <input type="text" name="riskFactor1" ><font color='red'> * </font><br>
 2. <input type="text" name="riskFactor2" ><font color='red'> * </font> <button class="addRiskFactorBrn">+</button>
 
-
-
 </td></tr>
+<tr><td>สถานะปัจจุบัน</td><td><input type="text" name="statusnow"><font color='red'> *  </font></td></tr>
 
 <tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่มแผนงาน" onClick="return confirm(' คุณแน่ใจที่จะสร้างแบบฟอร์ม?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
 
