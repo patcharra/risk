@@ -1,6 +1,7 @@
-
-
 <html>
+<head>
+<meta charset="utf-8">
+</head>
 <body>
 <center>
 
@@ -85,7 +86,7 @@ if(isset($_POST["sub"])){
 	}else{
 	$hostname = "localhost"; 
 	$user = "root"; 
-	$password = "1234"; 
+	$password = "root"; 
 	$dbname = "risk"; 
 	$tblname = "employee"; 
 	
