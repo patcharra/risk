@@ -5,7 +5,7 @@
 <html>
 <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=tis-620" />
+<meta charset="utf-8">
 <meta NAME="description" CONTENT="Insert Description Here">
 <meta NAME="keywords" CONTENT="Insert Keywords Here">
 <script language="javascript">

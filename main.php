@@ -1,4 +1,10 @@
+<?
+session_start(); 
+?>
 <html>
+<head>
+	<meta charset="utf-8">
+</head>
 <body>
 <br><br><br><br><br><br><br><br><br>
 <center>
@@ -6,7 +12,6 @@
 <font size=5>***ยินดีต้อนรับ คุณ 
 
 <?
-session_start(); 
 echo $_SESSION["firstname"]."  ".$_SESSION["lastname"];
 
 ?>
