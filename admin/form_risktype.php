@@ -3,6 +3,8 @@ require('../common/common_header.php');
 $code = '';
 if(isset($_REQUEST['code'])) {
 	// Edit data will select
+	$title	= 'แก้ไขข้อมูลประเภทความเสี่ยง';
+
 	$code 	= $_REQUEST['code'];
 	$sql 	= "SELECT 	typeName 
 				FROM 	risktype 
@@ -11,8 +13,10 @@ if(isset($_REQUEST['code'])) {
 	$rows	= mysql_num_rows($result);
 	if($rows > 0) {
 		$rsktypRow = mysql_fetch_assoc($result);
-		$risktype  = $rsktypRow['risktype'];
+		$risktype  = $rsktypRow['typeName'];
 	}
+} else {
+	$title		= 'เพิ่มข้อมูลประเภทความเสี่ยง';
 }
 ?>
 <!DOCTYPE html>
@@ -20,9 +24,48 @@ if(isset($_REQUEST['code'])) {
 <head>
 	<title></title>
 	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../inc/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/risk_main.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/form_table.js"></script>
 </head>
 <body>
-
+<h3><?=$title?></h3>
+<form id="form-table" name="form-table" action="manage_risktype.php" onsubmit="return checkFormInput();">
+	<input type="hidden" name="code" value="<?=$code?>">
+    <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0">
+	    <tbody>
+		    <tr>
+			    <td>
+				    <label class="input-required">ชื่อประเภทความเสี่ยง</label>
+				    <input id="typeName" name="typeName" type="text" class="form-input full" value="<?=$risktype?>" valuepattern="character">
+			    </td>
+		    </tr>
+            <tr class="errMsgRow">
+                <td>
+                    <span id="err-typeName-require" class="errInputMsg err-typeName">โปรดกรอกชื่อประเภทความเสี่ยง</span>
+                    <span id="err-typeName-character" class="errInputMsg err-typeName">โปรดกรอกตัวอักษรภาษาไทย หรือตัวอักษรภาษาอังกฤษเท่านั้น</span>
+                </td>
+            </tr>
+	    </tbody>
+    </table>
+    <?
+    if($code == '') {
+    	?>
+    	<button id="addBtn" type="submit" class="myButton" style="margin-right:10px;">เพิ่ม</button>
+    	<?
+    } else {
+    	?>
+    	<button id="editBtn" type="submit" class="myButton" style="margin-right:10px;">
+    		แก้ไข
+    	</button>
+    	<?
+    }
+    ?>
+    
+    <a href="show_risktype.php" class="btn">
+		<button class="myButton" type="button">ยกเลิก</button>
+	</a>
+</form>
 </body>
 </html>

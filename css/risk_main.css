@@ -27,3 +27,145 @@
 .table-data td.action-col a {
 	text-decoration: none;
 }
+
+/* Table Form Input */
+.mbk-form-input-normal {
+    color: #888;
+    margin-bottom: 20px;
+}
+.mbk-form-input-normal tr td:nth-child(2), .mbk-form-input-normal tr td.samerow {
+    padding-left: 20px;
+}
+.mbk-form-input-normal label{
+	display: block;
+    margin-bottom: 2px;
+}
+.mbk-form-input-normal .twoInput {
+    float: left;
+}
+.mbk-form-input-normal td .twoInput:nth-child(3n+1) {
+    margin-right: 10px;
+}
+.mbk-form-input-normal tr.errMsgRow {
+    vertical-align: top;
+}
+.mbk-form-input-normal .form-input{
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.mbk-form-input-normal .form-input.required, .mbk-form-input-normal .form-input.required:hover {
+    border-color: rgb(216, 0, 0);
+} 
+.mbk-form-input-normal label.twoInput-large, .mbk-form-input-normal .form-input.twoInput-large {
+	width: 150px;
+}
+.mbk-form-input-normal label.twoInput-small, .mbk-form-input-normal .form-input.twoInput-small {
+	width: 90px;
+}
+.mbk-form-input-normal .form-input.half {
+	width: 250px;
+}
+.mbk-form-input-normal .form-input.full {
+    width: 520px;
+	max-width: 520px;
+	min-width: 520px;
+}
+.mbk-form-input-normal label.input-required:before {
+	content: "* ";
+	color: #D80000;
+}
+.mbk-form-input-normal label.group-title {
+    font-size: 18px;
+    display: inline-block;
+    width: 520px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0 2px 5px;
+    margin-bottom: 15px;
+}
+
+label.article-title {
+    display: block;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.mbk-form-input-normal input[type="text"], .mbk-form-input-normal input[type="password"], .mbk-form-input-normal input[type="number"], .mbk-form-input-normal select, .mbk-form-input-normal textarea {
+    border: 1px solid #ccc;
+    padding: 5px;
+    outline: none;
+    margin-top: 0;
+	font-family: Tahoma, sans-serif;
+	font-size: 16px;
+	color: #555;
+}
+.mbk-form-input-normal input[type="text"]:hover, .mbk-form-input-normal input[type="password"]:hover, .mbk-form-input-normal input[type="number"]:hover, .mbk-form-input-normal select:hover, .mbk-form-input-normal textarea:hover {
+    border: 1px solid #888;
+}
+.mbk-form-input-normal textarea {
+	min-height: 1.2em;
+}
+.errInputMsg {
+    display: none;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    color: #D80000;
+    max-width: 520px;
+}
+.errInputMsg.half {
+    max-width: 250px;
+}
+.errInputMsg:before {
+    content: "\f06a";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    margin-right: 4px;
+}
+
+a.btn {
+	text-decoration: none;
+}
+
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+	background-color:#f9f9f9;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+	border-radius:15px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+	outline: none;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+	background-color:#e9e9e9;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
