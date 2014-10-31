@@ -4,19 +4,17 @@
 <!-- This Site Was Designed By Wayne D. Fields Contact: deonya22@yahoo.com -->
 <html>
 <head>
-
-<meta charset="utf-8">
-<meta NAME="description" CONTENT="Insert Description Here">
-<meta NAME="keywords" CONTENT="Insert Keywords Here">
-<script language="javascript">
-function onUnloadPage()
-{
-	if ((window.event.clientX < 0) && (window.event.clientY < 0))
-	{
-	window.open('logout.php');
-	}
-}
-</script>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/risk_main.css">
+	<script language="javascript">
+		function onUnloadPage()
+		{
+			if ((window.event.clientX < 0) && (window.event.clientY < 0))
+			{
+			window.open('logout.php');
+			}
+		}
+	</script>
 </head>
 
 <!--<frameset cols="*,960,*" border="0">-->
@@ -41,7 +39,7 @@ if($_SESSION["status"] == "admin")
 
 <?php }?>
 
-			<frame name="main" src="main.php" marginwidth="0" topmargin="0" leftmargin="0" marginheight="0" scrolling="yes" frameborder="no" noresize> 
+			<frame id="frame_main" name="main" src="main.php" marginwidth="0" topmargin="0" leftmargin="0" marginheight="0" scrolling="yes" frameborder="no" noresize> 
 	</frameset>
 	<frame name="footer" src="footer.html" marginwidth="0" topmargin="0" leftmargin="0" marginheight="0" scrolling="no" frameborder="no" noresize>
 </frameset>

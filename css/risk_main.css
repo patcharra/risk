@@ -1,0 +1,29 @@
+#frame_main {
+	padding: 30px;
+}
+
+/*
+ * table data
+ */
+.table-data {
+	border-collapse: collapse;
+}
+.table-data td {
+	border: 1px solid #999;
+	padding: 5px;
+}
+.table-data th {
+	background: #555;
+	color: white;
+	padding: 5px;
+	border-top: 1px solid #999;
+}
+.table-data th:first-child {
+	border-left: 1px solid #999;
+}
+.table-data th:last-child {
+	border-right: 1px solid #999;
+}
+.table-data td.action-col a {
+	text-decoration: none;
+}
