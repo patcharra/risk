@@ -27,11 +27,12 @@ $count		=1;
 ?>
 
 <br>
-<b>ผู้ใช้</b><br><br>
+<b>จัดการผู้ใช้</b><br><br>
+
 <table>
 <form method="post" action="###">
 
-
+<tr><td><u></b>เพิ่มผู้ใช้</b></u></td></tr>
 <tr>
 <td>ชื่อ</td><td><input type="text" name="firstname"><font color='red'> *</font>
 นามสกุล<input type="text" name="lastname"><font color='red'> *</font></td>
