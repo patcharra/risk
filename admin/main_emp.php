@@ -27,7 +27,7 @@ $count		=1;
 ?>
 
 <br>
-<b>พนักงาน</b><br><br>
+<b>ผู้ใช้</b><br><br>
 <table>
 <form method="post" action="###">
 
@@ -73,9 +73,6 @@ if(isset($_POST["sub"])){
 	}else{
 	$tblname = "employee"; 
 	
-	mysql_connect($hostname, $user, $password) or die("ติดต่อฐานข้อมูลไม่ได้");
-
-	mysql_select_db($dbname) or die("เลือกฐานข้อมูลไม่ได้");
 
 	$md5_password =  $_POST["password"];
 	$sql = "insert into $tblname (firstname,lastname,username,password,status,IDagen) 
