@@ -1,4 +1,4 @@
-﻿
+
 <?php
 	$id=$_REQUEST["id"];
 	$hostname = "localhost"; 
