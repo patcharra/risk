@@ -1,4 +1,4 @@
-﻿
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!-- This Site Was Designed By Wayne D. Fields Contact: deonya22@yahoo.com -->
