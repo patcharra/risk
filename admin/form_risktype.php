@@ -26,12 +26,12 @@ if(isset($_REQUEST['code'])) {
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="../inc/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="../css/risk_main.css">
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/form_table.js"></script>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/form_table.js"></script>
 </head>
 <body>
 <h3><?=$title?></h3>
-<form id="form-table" name="form-table" action="manage_risktype.php" onsubmit="return checkFormInput();">
+<form id="form-table" name="form-table" action="manage_risktype.php">
 	<input type="hidden" name="code" value="<?=$code?>">
     <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0">
 	    <tbody>
@@ -52,11 +52,11 @@ if(isset($_REQUEST['code'])) {
     <?
     if($code == '') {
     	?>
-    	<button id="addBtn" type="submit" class="myButton" style="margin-right:10px;">เพิ่ม</button>
+    	<button id="addBtn" type="button" class="myButton" style="margin-right:10px;">เพิ่ม</button>
     	<?
     } else {
     	?>
-    	<button id="editBtn" type="submit" class="myButton" style="margin-right:10px;">
+    	<button id="editBtn" type="button" class="myButton" style="margin-right:10px;">
     		แก้ไข
     	</button>
     	<?

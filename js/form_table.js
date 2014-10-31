@@ -14,14 +14,6 @@ $(document).ready(function(){
 });
 
 function checkFormInput() {
-	var pass = true;
-	alert('enter');
-	if($('#editBtn').length > 0) {
-		alert('edit');
-		if(!confirm('คุณต้องการบันทึกการเปลี่ยนแปลงข้อมูลใช่หรือไม่?')) {
-			pass = false;
-		}
-	}
-
-	return pass;
+	$('#form-table .select-reference').filter('[require]').each(validateInput);
+	return true;
 }
