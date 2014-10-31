@@ -18,25 +18,12 @@ td{font-family:arial, sans-serif; font-size:15px;}
 
 </style>
 <?php
+require('../common/common_header.php');
 
-
-//ติดต่อฐานข้อมูล
-$hostname_krukat = "localhost";
-$database_krukat = "risk";
-$username_krukat = "root";
-$password_krukat = "root";
-
-$krukat = mysql_pconnect($hostname_krukat, $username_krukat, $password_krukat) or trigger_error(mysql_error(),E_USER_ERROR);
-mysql_query("SET NAMES 'utf8' COLLATE 'utf8_general_ci';");
-
-mysql_select_db($database_krukat, $krukat);
-$query = "select IDagen,agenName,agenInitname from agency"; 
-mysql_query("SET NAMES 'utf8' COLLATE 'utf8_general_ci';"); //ให้ใช้การเข้ารหัวอักษรแบบ utf8
-$query_db = mysql_query($query, $krukat) or die(mysql_error());
-$row_db = mysql_fetch_assoc($query_db);//เก็บผลการประมวงผลลงตัวแปร $row_db
-
-
-$count=1;
+$query		= "select IDagen,agenName,agenInitname from agency"; 
+$query_db	= mysql_query($query, $dbConn) or die(mysql_error());
+$row_db		= mysql_fetch_assoc($query_db);//เก็บผลการประมวงผลลงตัวแปร $row_db
+$count		=1;
 ?>
 
 <br>
@@ -84,19 +71,18 @@ if(isset($_POST["sub"])){
 	}else if($_POST["password"]!=$_POST["password2"]){
 		echo "<font color='red' size='2'>รหัสผ่านไม่ตรงกัน กรุณากรอกใหม่อีกครั้ง<br></font>";
 	}else{
-	$hostname = "localhost"; 
-	$user = "root"; 
-	$password = "root"; 
-	$dbname = "risk"; 
 	$tblname = "employee"; 
 	
 	mysql_connect($hostname, $user, $password) or die("ติดต่อฐานข้อมูลไม่ได้");
 
 	mysql_select_db($dbname) or die("เลือกฐานข้อมูลไม่ได้");
+
 	$md5_password =  $_POST["password"];
 	$sql = "insert into $tblname (firstname,lastname,username,password,status,IDagen) 
-	values ('".$_POST["firstname"]."','".$_POST["lastname"]."','".$_POST["username"]."', '".$md5_password."','".$_POST["status"]."', '".$_POST["agen"]."')"; 
-	$dbquery = mysql_db_query($dbname, $sql);
+	values 
+	('".$_POST["firstname"]."','".$_POST["lastname"]."','".$_POST["username"]."', '".$md5_password."','".$_POST["status"]."', '".$_POST["agen"]."')"; 
+	$dbquery = mysql_query($sql, $dbConn);
+	
 	mysql_close();
 	echo "<script type='text/javascript'>window.location.href = 'main_emp.php';</script>";
 	}
@@ -119,7 +105,7 @@ if(isset($_POST["sub"])){
 
 <?php
 $query2 = "select IDemp,firstname,lastname,IDagen,username,status from employee"; 
-$query_db2 = mysql_query($query2, $krukat) or die(mysql_error());
+$query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
 $row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
 
@@ -131,7 +117,7 @@ $idemp=$row_db2['IDemp'];
 <td BGCOLOR="ededc9">&nbsp;<?=$row_db2['firstname']?>&nbsp;&nbsp;<?=$row_db2['lastname']?> </td>
 <?php
 $query3 = "select a.agenInitname from agency a,employee e where a.IDagen=e.IDagen and e.IDemp='".$idemp."'"; 
-$query_db3 = mysql_query($query3, $krukat) or die(mysql_error());
+$query_db3 = mysql_query($query3, $dbConn) or die(mysql_error());
 $row_db3 = mysql_fetch_assoc($query_db3);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
 do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
