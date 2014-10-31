@@ -22,24 +22,25 @@ td{font-family:arial, sans-serif; font-size:15px;}
 <?php
 require('../common/common_header.php');
 
-$query		= "select IDagen,agenName,agenInitname from agency"; 
+$query		= "select IDunit,unitName from unit"; 
 $query_db	= mysql_query($query, $dbConn) or die(mysql_error());
 $row_db		= mysql_fetch_assoc($query_db);//เก็บผลการประมวงผลลงตัวแปร $row_db
 $count		=1;
 ?>
 
 <br>
-<h3>จัดการหน่วยงาน</h3><br><br>
+<h3>จัดการหน่วยนับ</h3><br><br>
 
 <table>
 <form method="post" action="###">
 
-<tr><td><u></b>เพิ่มหน่วยงาน</b></u></td></tr>
-<tr><td>ชื่อหน่วยงาน</td><td><input type="text" name="agenName"><font color='red'> *</font></tr>
+<tr><td><u></b>เพิ่มหน่วยนับ</b></u></td></tr>
+<tr>
+<td>ชื่อหน่วยนับ</td><td><input type="text" name="unitname"><font color='red'> *</font>
+</tr>
 
-<tr><td>ชื่อย่อหน่วยงาน</td><td><input type="text" name="agenInitName"><font color='red'> * </font></td></tr>
 
-<tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่ม" onClick="return confirm(' คุณแน่ใจที่จะเพิ่มข้อมูลหน่วยงาน?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
+<tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่ม" onClick="return confirm(' คุณแน่ใจหรือไม่ที่จะเพิ่มหน่วยนับ?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
 
 </form>
 </table>
@@ -50,22 +51,21 @@ $count		=1;
 <?php
 
 if(isset($_POST["sub"])){
-	if(($_POST["agenName"]=="") || ($_POST["agenInitName"]=="")){
+	if(($_POST["unitname"]=="")){
 		echo "<font color='red' size='2'>กรุณากรอกข้อมูลให้ครบถ้วน<br></font>";
 	}else{
-	$tblname = "agency"; 
+	$tblname = "unit"; 
 	
 
-	$sql = "insert into $tblname (agenName,agenInitname) 
-	values 
-	('".$_POST["agenName"]."','".$_POST["agenInitName"]."')"; 
+	$sql = "insert into $tblname (unitName) values ('".$_POST["unitname"]."')"; 
 	$dbquery = mysql_query($sql, $dbConn);
 	
 	mysql_close();
-	echo "<script type='text/javascript'>window.location.href = 'main_agencies.php';</script>";
+	echo "<script type='text/javascript'>window.location.href = 'main_unit.php';</script>";
 	}
 }
 ?>
+
 
 
 
@@ -74,12 +74,11 @@ if(isset($_POST["sub"])){
 <th></th>
 <th></th>
 <th align="center" >ลำดับที่</th>
-<th align="center" >ชื่อหน่วยงาน</th>
-<th align="center" >ชื่อย่อหน่วยงาน</th>
+<th align="center" >ชื่อหน่วยนับ</th>
 </tr>
 
 <?php
-$query2 = "select IDagen,agenName,agenInitname from agency"; 
+$query2 = "select IDunit,unitName from unit"; 
 $query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
 $row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
@@ -87,16 +86,14 @@ $row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประ�
 do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
 ?>
 <tr>
-<td><a href="update_agen.php?id=<?=$row_db2['IDagen']?>"><button>แก้ไข</button></a></td>
-<td><a href="delete_agen.php?id=<?=$row_db2['IDagen']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ  <?=$row_db2['agenName']?>?')"><button>ลบ</button></a></td>
+<td><a href="update_unit.php?id=<?=$row_db2['IDunit']?>"><button>แก้ไข</button></a></td>
+<td><a href="delete_unit.php?id=<?=$row_db2['IDunit']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ  <?=$row_db2['unitName']?>?')"><button>ลบ</button></a></td>
 <td ><center>&nbsp;<?=$count++?></center></td>
-<td >&nbsp;<?=$row_db2['agenName']?> </td>
-<td >&nbsp;<?=$row_db2['agenInitname']?> </td>
+<td >&nbsp;<?=$row_db2['unitName']?> </td>
 </tr>
 <?                                                 
                                                       
 }while ($row_db2 = mysql_fetch_assoc($query_db2));
-
 ?>
 </table>
 
