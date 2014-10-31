@@ -23,7 +23,7 @@ td{font-family:arial, sans-serif; font-size:15px;}
 $hostname_krukat = "localhost";
 $database_krukat = "risk";
 $username_krukat = "root";
-$password_krukat = "1234";
+$password_krukat = "root";
 
 $krukat = mysql_pconnect($hostname_krukat, $username_krukat, $password_krukat) or trigger_error(mysql_error(),E_USER_ERROR);
 mysql_query("SET NAMES 'utf8' COLLATE 'utf8_general_ci';");
@@ -71,8 +71,6 @@ $count=1;
 
 </form>
 </table>
-
-
 
 
 

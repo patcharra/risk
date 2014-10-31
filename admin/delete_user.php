@@ -3,7 +3,7 @@
 	$id=$_REQUEST["id"];
 	$hostname = "localhost"; 
 	$user = "root"; 
-	$password = "1234"; 
+	$password = "root"; 
 	$dbname = "risk"; 
 	$tblname = "employee"; 
 
