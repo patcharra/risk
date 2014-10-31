@@ -3,7 +3,6 @@
 <meta charset="utf-8">
 </head>
 <body>
-<center>
 
 <style type="text/css">
 
@@ -33,7 +32,7 @@ $row_db1	= mysql_fetch_assoc($query_db1);//เก็บผลการประ�
 ?>
 
 <br>
-<b>แก้ไขผู้ใช้</b><br><br>
+<h3>แก้ไขผู้ใช้</h3><br><br>
 <table>
 <form method="post" action="###">
 
@@ -60,12 +59,13 @@ $row_db1	= mysql_fetch_assoc($query_db1);//เก็บผลการประ�
 
 <input type="hidden" name="id" value="<?=$id?>">
 
-<tr><td colspan='4'><center><input type="submit" name="sub" value="แก้ไขผู้ใช้" onClick="return confirm(' คุณแน่ใจที่จะเพิ่มข้อมูลผู้ใช้?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
+<tr><td colspan='4'><center><input type="submit" name="sub" value="แก้ไขผู้ใช้" onClick="return confirm(' คุณแน่ใจที่จะแก้ไขข้อมูลผู้ใช้?')">
+
 
 </form>
+<a href="main_emp.php"><button>ยกเลิก</button></a></center></td></tr>
+
 </table>
-
-
 
 
 <?php
@@ -80,7 +80,7 @@ $tblname = "employee";
 $id	= $_REQUEST["id"];
 
 			$sql = "Update $tblname Set firstname='".$_POST["firstname"]."',lastname='".$_POST["lastname"]."',IDagen='".$_POST["agen"]."',status='".$_POST["status"]."' Where IDemp='$id'";
-echo $sql;	
+
 $dbquery = mysql_query($sql, $dbConn);
 
 
@@ -96,6 +96,5 @@ mysql_free_result($query_db);//เลิกติดต่อ Mysql
 ?>
 
 
-</center>
 </body>
 </html>

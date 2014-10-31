@@ -1,9 +1,11 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../css/risk_main.css">
+
 </head>
 <body>
-<center>
+
 
 <style type="text/css">
 
@@ -27,7 +29,7 @@ $count		=1;
 ?>
 
 <br>
-<b>จัดการผู้ใช้</b><br><br>
+<h3>จัดการผู้ใช้</h3><br><br>
 
 <table>
 <form method="post" action="###">
@@ -54,7 +56,7 @@ $count		=1;
 	<input type="radio" name="status" value="user"  checked>ผู้ใช้ 
 	<input type="radio" name="status"  value="admin" >ผู้ดูแลระบบ
 
-<tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่มผู้ใช้" onClick="return confirm(' คุณแน่ใจที่จะเพิ่มข้อมูลผู้ใช้?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
+<tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่ม" onClick="return confirm(' คุณแน่ใจที่จะเพิ่มข้อมูลผู้ใช้?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
 
 
 
@@ -92,13 +94,16 @@ if(isset($_POST["sub"])){
 
 
 
-<table>
+<table class= "table-data">
 <tr>
-<td align="center" width="50" BGCOLOR="CCCC66"><b>ลำดับที่</b></td>
-<td align="center" width="100" BGCOLOR="CCCC66"><b>ชื่อ</b></td>
-<td align="center" width="100" BGCOLOR="CCCC66"><b>หน่วยงาน</b></td>
-<td align="center" width="100" BGCOLOR="CCCC66"><b>username</b></td>
-<td align="center" width="50" BGCOLOR="CCCC66"><b>สถานะ</b></td>
+<th></th>
+<th></th>
+<th align="center" >ลำดับที่</th>
+<th align="center" >ชื่อ</th>
+<th align="center" >หน่วยงาน</th>
+<th align="center" >username</th>
+<th align="center" >สถานะ</th>
+
 </tr>
 
 <?php
@@ -111,8 +116,10 @@ do{ //คำสั้ง loop ของ php เพื่อนำข้อมู
 $idemp=$row_db2['IDemp'];
 ?>
 <tr>
-<td BGCOLOR="ededc9">&nbsp;<?=$count++?></td>
-<td BGCOLOR="ededc9">&nbsp;<?=$row_db2['firstname']?>&nbsp;&nbsp;<?=$row_db2['lastname']?> </td>
+<td><a href="update_user.php?id=<?=$row_db2['IDemp']?>"><button>แก้ไข</button></a></td>
+<td><a href="delete_user.php?id=<?=$row_db2['IDemp']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ คุณ <?=$row_db2['firstname']?>?')"><button>ลบ</button></a></td>
+<td ><center>&nbsp;<?=$count++?></center></td>
+<td >&nbsp;<?=$row_db2['firstname']?>&nbsp;&nbsp;<?=$row_db2['lastname']?> </td>
 <?php
 $query3 = "select a.agenInitname from agency a,employee e where a.IDagen=e.IDagen and e.IDemp='".$idemp."'"; 
 $query_db3 = mysql_query($query3, $dbConn) or die(mysql_error());
@@ -121,16 +128,14 @@ $row_db3 = mysql_fetch_assoc($query_db3);//เก็บผลการประ�
 do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
 
 ?>
-<td BGCOLOR="ededc9">&nbsp;<?=$row_db3['agenInitname']?> </td>
+<td >&nbsp;<?=$row_db3['agenInitname']?> </td>
 <?php
 }while ($row_db3 = mysql_fetch_assoc($query_db3));
 ?>
 
-<td BGCOLOR="ededc9">&nbsp;<?=$row_db2['username']?> </td>
-<td BGCOLOR="ededc9">&nbsp;<?=$row_db2['status']?> </td>
+<td >&nbsp;<?=$row_db2['username']?> </td>
+<td >&nbsp;<?=$row_db2['status']?> </td>
 
-<td BGCOLOR="ededc9"><a href="update_user.php?id=<?=$row_db2['IDemp']?>">[แก้ไข]</a></td>
-<td BGCOLOR="ededc9"><a href="delete_user.php?id=<?=$row_db2['IDemp']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ คุณ <?=$row_db['Name']?>?')">[ลบ]</a></td>
 </tr>
 <?                                                 
                                                       
@@ -145,6 +150,5 @@ mysql_free_result($query_db);//เลิกติดต่อ Mysql
 ?>
 
 
-</center>
 </body>
 </html>
