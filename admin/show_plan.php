@@ -1,10 +1,11 @@
 <?
 require('../common/common_header.php');
-/*$sql = "SELECT 	IDtype,
-				typeName 
-		FROM 	risktype";
+$sql = "SELECT 	IDplan,
+				planName,
+				time 
+		FROM 	plan";
 $result = mysql_query($sql, $dbConn);
-$rows	= mysql_num_rows($result);*/
+$rows	= mysql_num_rows($result);
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,35 +21,38 @@ $rows	= mysql_num_rows($result);*/
 </a>
 <br><br>
 <?
-/*if($rows > 0) {
+if($rows > 0) {
 	?>
 	<table class="table-data">
 		<thead>
 			<tr>
 				<th class="action-col"></th>
 				<th>ลำดับ</th>
-				<th>ชื่อประเภทความเสี่ยง</th>
+				<th>ชื่อแผนงาน</th>
+				<th>ระยะเวลาดำเนินการ</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?
 		for($i=0; $i<$rows; $i++) {
-			$rsktypRow 	 = mysql_fetch_assoc($result);
+			$plnRow 	 = mysql_fetch_assoc($result);
 			$no 	 	 = $i+1;
-			$rsktyp_id 	 = $rsktypRow['IDtype'];
-			$rsktyp_name = $rsktypRow['typeName'];
+			$IDplan 	 = $plnRow['IDplan'];
+			$planName 	 = $plnRow['planName'];
+			$time 		 = $plnRow['time'];
 			?>
 			<tr>
 				<td class="action-col">
-					<a href="form_risktype.php?code=<?=$rsktyp_id?>" >
+					<a href="form_plan.php?code=<?=$IDplan?>" >
 						<button>แก้ไข</button>
 					</a>
-					<a href="manage_risktype.php?code=<?=$rsktyp_id?>&action=DELETE" onClick="return confirm('คุณต้องการลบประเภทความเสี่ยง <?=$rsktyp_name?> ใช่หรือไม่?')">
+					<a href="manage_plan.php?code=<?=$IDplan?>&action=DELETE" onClick="return confirm('คุณต้องการลบแผนงาน <?=$planName?> ใช่หรือไม่?')">
 						<button>ลบ</button>
 					</a>
 				</td>
 				<td align="center"><?=$no?></td>
-				<td><?=$rsktyp_name?></td>
+				<td><?=$planName?></td>
+				<td><?=$time?></td>
 			</tr>
 			<?
 		}
@@ -60,7 +64,7 @@ $rows	= mysql_num_rows($result);*/
 	?>
 	ไม่พบข้อมูล
 	<?
-}*/
+}
 ?>
 </body>
 </html>
