@@ -54,5 +54,4 @@ if($code == ''){
 	}
 	
 }
-print_r($_REQUEST);
 ?>

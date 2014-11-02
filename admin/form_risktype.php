@@ -38,13 +38,12 @@ if(isset($_REQUEST['code'])) {
 		    <tr>
 			    <td>
 				    <label class="input-required">ชื่อประเภทความเสี่ยง</label>
-				    <input id="typeName" name="typeName" type="text" class="form-input full" value="<?=$risktype?>" valuepattern="character" require>
+				    <input id="typeName" name="typeName" type="text" class="form-input full" value="<?=$risktype?>" require>
 			    </td>
 		    </tr>
             <tr class="errMsgRow">
                 <td>
                     <span id="err-typeName-require" class="errInputMsg err-typeName">โปรดกรอกชื่อประเภทความเสี่ยง</span>
-                    <span id="err-typeName-character" class="errInputMsg err-typeName">โปรดกรอกข้อมูลเป็นตัวอักษรภาษาไทย หรือตัวอักษรภาษาอังกฤษเท่านั้น</span>
                 </td>
             </tr>
 	    </tbody>
