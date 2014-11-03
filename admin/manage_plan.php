@@ -172,17 +172,48 @@ if($code == ''){
 	<?
 } else {
 	if($action == 'DELETE') {
-		/*$sql = "DELETE FROM strategy WHERE IDstrategy = '$code'";
+		//Delete risk_factor
+		$sql = "DELETE FROM risk_factor WHERE IDplan = '$code'";
 		$result = mysql_query($sql, $dbConn);
-		if($result) {
+		if(!$result) {
 			?>
-			<script>window.location.href='show_strategy.php'</script>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลปัจจัยเสี่ยงได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
 			<?
-		} else {
+			exit();
+		}
+
+		//Delete objective
+		$sql = "DELETE FROM objective WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
 			?>
-			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลได้ คลิก <a href="show_strategy.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลวัตถุประสงค์ได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
 			<?
-		}*/
+			exit();
+		}
+
+		//Delete results_to_get
+		$sql = "DELETE FROM results_to_get WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลวผลคาดว่าที่จะได้รับได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+
+		// Delete plan
+		$sql = "DELETE FROM plan WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลแผนงานได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+		?>
+		<script>window.location.href='show_plan.php'</script>
+		<?
 	} else {
 		$sql = "UPDATE plan SET planName 				= '$planName',
 								risk 					= '$risk',
@@ -205,15 +236,69 @@ if($code == ''){
 								y_insert 				= '$y_insert' 
 							WHERE IDplan = '$code'";
 		$result = mysql_query($sql, $dbConn);
-		if($result) {
-			?>
-			<script>window.location.href='show_plan.php'</script>
-			<?
-		} else {
+		if(!$result) {
 			?>
 			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
 			<?
 		}
+
+		// Delete risk_factor if delete old risk_factor
+		$oldRskFacList = array();
+		$newRskFacList = array();
+		// Find old risk_factor
+		$sql = "SELECT IDriskfac FROM risk_factor WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		$rows 	= mysql_num_rows($result);
+		for($i=0; $i<$rows; $i++) {
+			$oldRskFacRecord = mysql_fetch_assoc($result);
+			array_push($oldRskFacList, $oldRskFacRecord['IDriskfac']);
+		}
+		// Find new risk_factor
+		foreach ($IDriskfac as $key => $newRskFac_id) {
+			array_push($newRskFacList, $newRskFac_id);
+		}
+		// Check for delete 
+		foreach ($oldRskFacList as $key => $oldRskFac_id) {
+			if(!in_array($oldRskFac_id, $newRskFacList)) {
+				// Delete risk_factor
+				$sql = "DELETE FROM risk_factor WHERE IDriskfac = '$oldRskFac_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					?>
+					<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลปัจจัยเสี่ยงรหัส <?=$oldRskFac_id?>ได้
+					<?
+				}
+			}
+		}
+		// Update or Add risk_factor
+		$updatePkgsvlResult = true;
+		$updatePkgsvlError  = '';
+
+		foreach ($riskfacName as $key => $rskFac_name) {
+			if(isset($IDriskfac[$key])) {
+				// Update package_service_lists
+				$pkgsvl_id 		= $formData['pkgsvl_id'][$key];
+				$pkgsvlRecord 	= new TableSpa('package_service_lists', $pkgsvl_id);
+				$pkgsvlRecord->setFieldValue('rskFac_name', $rskFac_name);
+				if(!$pkgsvlRecord->commit()) {
+					$updatePkgsvlResult = false;
+					$updatePkgsvlError .= 'EDIT_PAKAGE_SERVICE_LISTS['.($key+1).']_FAIL\n';
+				}
+			} else {
+				// Add new package_service_lists
+				$pkgsvlValues 	= array($rskFac_name, $code);
+				$pkgsvlRecord 	= new TableSpa('package_service_lists', $pkgsvlValues);
+				if(!$pkgsvlRecord->insertSuccess()) {
+					$updatePkgsvlResult = false;
+					$updatePkgsvlError .= 'ADD_PAKAGE_SERVICE_LISTS['.($key+1).']_FAIL\n';
+				}
+			}
+		}
+
+
+		?>
+		<script>window.location.href='show_plan.php'</script>
+		<?
 	}
 	
 }

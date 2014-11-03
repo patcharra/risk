@@ -7,6 +7,7 @@ if(isset($_REQUEST['code'])) {
 	$action = 'EDIT';
 	$title	= 'แก้ไขข้อมูลแผนงาน';
 
+	// Get plan data
 	$code 	= $_REQUEST['code'];
 	$sql 	= "SELECT 	* 
 				FROM 	plan 
@@ -15,6 +16,39 @@ if(isset($_REQUEST['code'])) {
 	$rows	= mysql_num_rows($result);
 	if($rows > 0) {
 		$planRow = mysql_fetch_assoc($result);
+	}
+
+	// Get risk_factor data
+	$riskFactorList = array();
+	$sql 	= "SELECT 	* 
+				FROM 	risk_factor 
+				WHERE 	IDplan = '$code'";
+	$result = mysql_query($sql, $dbConn);
+	$rows	= mysql_num_rows($result);
+	for($i=0; $i<$rows; $i++) {
+		array_push($riskFactorList, mysql_fetch_assoc($result));
+	}
+
+	// Get objective data
+	$objectiveList = array();
+	$sql 	= "SELECT 	* 
+				FROM 	objective 
+				WHERE 	IDplan = '$code'";
+	$result = mysql_query($sql, $dbConn);
+	$rows	= mysql_num_rows($result);
+	for($i=0; $i<$rows; $i++) {
+		array_push($objectiveList, mysql_fetch_assoc($result));
+	}
+
+	// Get results_to_get data
+	$resultToGetList = array();
+	$sql 	= "SELECT 	* 
+				FROM 	results_to_get 
+				WHERE 	IDplan = '$code'";
+	$result = mysql_query($sql, $dbConn);
+	$rows	= mysql_num_rows($result);
+	for($i=0; $i<$rows; $i++) {
+		array_push($resultToGetList, mysql_fetch_assoc($result));
 	}
 } else {
 	$action = 'ADD';
@@ -82,7 +116,32 @@ if($rows > 0) {
 			addObjective({});
 			addResultToGet({});
 		} else if(action == 'EDIT') {
-
+			<?
+			foreach ($riskFactorList as $key => $value) {
+				?>
+				addRiskfacName({
+					IDriskfac		: "<?=$value['IDriskfac']?>",
+					defaultValue	: "<?=$value['riskfacName']?>"
+				});
+				<?
+			}
+			foreach ($objectiveList as $key => $value) {
+				?>
+				addObjective({
+					IDobj			: "<?=$value['IDobj']?>",
+					defaultValue	: "<?=$value['detail']?>"
+				});
+				<?
+			}
+			foreach ($resultToGetList as $key => $value) {
+				?>
+				addResultToGet({
+					IDrtg			: "<?=$value['IDrtg']?>",
+					defaultValue	: "<?=$value['rtgDetail']?>"
+				});
+				<?
+			}
+			?>
 		}
 	});
 
