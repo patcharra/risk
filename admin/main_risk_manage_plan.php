@@ -64,8 +64,6 @@ if(isset($_POST["sub"])){
 	}else{
 	$tblname = "risk_manage_plan"; 
 	
-
-	$md5_password =  $_POST["password"];
 	$sql = "insert into $tblname (rmpName,IDplan) 
 	values 
 	('".$_POST["rmpName"]."','".$_POST["plan"]."')"; 
@@ -86,8 +84,9 @@ if(isset($_POST["sub"])){
 <tr>
 <th></th>
 <th></th>
+<th></th>
 <th align="center" >แผนงานที่</th>
-<th align="center" >รายการแผนบริหารความเสี่ยง</th>
+<th align="center" >รายการแผนบริหารความเสี่ยง และกิจกรรมการจัดการความเสี่ยง</th>
 
 </tr>
 
@@ -109,21 +108,41 @@ $row_db3 = mysql_fetch_assoc($query_db3);//เก็บผลการประ�
 ?>
 
 <tr>
-<td></td><td></td>
-
-
+<td></td><td></td><td></td>
 <td ><center>&nbsp;<?=$count++?></center></td>
 <td >&nbsp;<?=$row_db2['planName']?> </td>
 </tr>
 <?php
-do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
+do{ //คำสั้ง loop ของ  แผนบริหารความเสี่ยง
+$query4 = "select IDrma,rmaDetail from risk_manage_activity where IDrmp= ".$row_db3['IDrmp']; 
+$query_db4 = mysql_query($query4, $dbConn) or die(mysql_error());
+$row_db4 = mysql_fetch_assoc($query_db4);//เก็บผลการประมวงผลลงตัวแปร $row_db
+$c=0;
 ?>
-<tr>
+<tr>	<td><a href="add_rma.php?id=<?=$row_db3['IDrmp']?>"><button>เพิ่มกิจกรรมการจัดการความเสี่ยง
+	</button></a></td>
 	<td><a href="update_rmp.php?id=<?=$row_db3['IDrmp']?>"><button>แก้ไข</button></a></td>
 	<td><a href="delete_rmp.php?id=<?=$row_db3['IDrmp']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ <?=$row_db3['rmpName']?>?')"><button>ลบ</button></a></td>
+<td></td>
 
-	<td></td><td >&nbsp;&nbsp;&nbsp;-&nbsp;<?=$row_db3['rmpName']?> </td>
+	<td >&nbsp;&nbsp;&nbsp;-&nbsp;<?=$row_db3['rmpName']?> </td>
 </tr>
+
+	<?php
+	do{ //คำสั้ง loop ของ กิจกรรมการจัดการความเสี่ยง
+
+	?>
+		<tr><td></td><td><a href="update_rma.php?id=<?=$row_db4['IDrma']?>"><button>แก้ไข</button></a></td>
+		<td><a href="delete_rma.php?id=<?=$row_db4['IDrma']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ <?=$row_db4['rmaDetail']?>?')"><button>ลบ</button></a></td>
+		<td></td>
+		<td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=++$c?>. &nbsp;<?=$row_db4['rmaDetail']?> </td>
+		</tr>
+
+	<?php                                                                           
+	}while ($row_db4 = mysql_fetch_assoc($query_db4));
+	?>
+
+
 
 <?php                                                                           
 }while ($row_db3 = mysql_fetch_assoc($query_db3));
