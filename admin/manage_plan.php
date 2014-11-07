@@ -145,7 +145,7 @@ if($code == ''){
 	}
 
 	//Insert objective
-	foreach ($riskfacName as $key => $name) {
+	foreach ($objDtl as $key => $name) {
 		$sql = "INSERT INTO objective VALUES(NULL, $IDplan, '$name')";
 		$result = mysql_query($sql, $dbConn);
 		if(!$result) {
@@ -271,34 +271,139 @@ if($code == ''){
 			}
 		}
 		// Update or Add risk_factor
-		$updatePkgsvlResult = true;
-		$updatePkgsvlError  = '';
+		$updateRskFacResult = true;
+		$updateRskFacError  = '';
 
 		foreach ($riskfacName as $key => $rskFac_name) {
 			if(isset($IDriskfac[$key])) {
-				// Update package_service_lists
-				$pkgsvl_id 		= $formData['pkgsvl_id'][$key];
-				$pkgsvlRecord 	= new TableSpa('package_service_lists', $pkgsvl_id);
-				$pkgsvlRecord->setFieldValue('rskFac_name', $rskFac_name);
-				if(!$pkgsvlRecord->commit()) {
-					$updatePkgsvlResult = false;
-					$updatePkgsvlError .= 'EDIT_PAKAGE_SERVICE_LISTS['.($key+1).']_FAIL\n';
+				// Update risk_factor
+				$rskFac_id = $IDriskfac[$key];
+				$sql = "UPDATE risk_factor SET riskfacName = '$rskFac_name' WHERE IDriskfac = '$rskFac_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateRskFacResult = false;
+					$updateRskFacResult = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลปัจจัยเสี่ยง \"$rskFac_id\" ได้<br>";
 				}
 			} else {
-				// Add new package_service_lists
-				$pkgsvlValues 	= array($rskFac_name, $code);
-				$pkgsvlRecord 	= new TableSpa('package_service_lists', $pkgsvlValues);
-				if(!$pkgsvlRecord->insertSuccess()) {
-					$updatePkgsvlResult = false;
-					$updatePkgsvlError .= 'ADD_PAKAGE_SERVICE_LISTS['.($key+1).']_FAIL\n';
+				// Add new risk_factor
+				$sql = "INSERT INTO risk_factor VALUES(NULL, '$rskFac_name', '$code')";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateRskFacResult = false;
+					$updateRskFacResult = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลปัจจัยเสี่ยง \"$rskFac_name\" ได้<br>";
+				}
+			}
+		}
+
+		
+		// Delete objective if delete old objective
+		$oldObjList = array();
+		$newObjList = array();
+		// Find old objective
+		$sql = "SELECT IDobj FROM objective WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		$rows 	= mysql_num_rows($result);
+		for($i=0; $i<$rows; $i++) {
+			$oldObjRecord = mysql_fetch_assoc($result);
+			array_push($oldObjList, $oldObjRecord['IDobj']);
+		}
+		// Find new objective
+		foreach ($IDobj as $key => $newObj_id) {
+			array_push($newObjList, $newObj_id);
+		}
+		// Check for delete 
+		foreach ($oldObjList as $key => $oldObj_id) {
+			if(!in_array($oldObj_id, $newObjList)) {
+				// Delete objective
+				$sql = "DELETE FROM objective WHERE IDobj = '$oldObj_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					?>
+					<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลปัจจัยเสี่ยงรหัส <?=$oldObj_id?>ได้
+					<?
+				}
+			}
+		}
+		// Update or Add objective
+		$updateObjResult = true;
+		$updateObjError  = '';
+
+		foreach ($objDtl as $key => $obj_name) {
+			if(isset($IDobj[$key])) {
+				// Update objective
+				$obj_id = $IDobj[$key];
+				$sql = "UPDATE objective SET detail = '$obj_name' WHERE IDobj = '$obj_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateObjResult = false;
+					$updateObjError = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลวัตถุประสงค์ \"$obj_id\" ได้<br>";
+				}
+			} else {
+				// Add new objective
+				$sql = "INSERT INTO objective VALUES(NULL, '$code', '$obj_name')";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateObjResult = false;
+					$updateObjError = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลวัตถุประสงค์ \"$obj_name\" ได้<br>";
 				}
 			}
 		}
 
 
-		?>
-		<script>window.location.href='show_plan.php'</script>
-		<?
+		// Delete results_to_get if delete old results_to_get
+		$oldRtgList = array();
+		$newRtgList = array();
+		// Find old results_to_get
+		$sql = "SELECT IDrtg FROM results_to_get WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		$rows 	= mysql_num_rows($result);
+		for($i=0; $i<$rows; $i++) {
+			$oldRtgRecord = mysql_fetch_assoc($result);
+			array_push($oldRtgList, $oldRtgRecord['IDrtg']);
+		}
+		// Find new results_to_get
+		foreach ($IDrtg as $key => $newRgt_id) {
+			array_push($newRtgList, $newRgt_id);
+		}
+		// Check for delete 
+		foreach ($oldRtgList as $key => $oldRgt_id) {
+			if(!in_array($oldRgt_id, $newRtgList)) {
+				// Delete results_to_get
+				$sql = "DELETE FROM results_to_get WHERE IDrtg = '$oldRgt_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					?>
+					<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลผลคาดว่าที่จะได้รับรหัส <?=$oldRgt_id?>ได้
+					<?
+				}
+			}
+		}
+		// Update or Add results_to_get
+		$updateRgtResult = true;
+		$updateRgtError  = '';
+
+		foreach ($rtgDetail as $key => $rgt_name) {
+			if(isset($IDobj[$key])) {
+				// Update results_to_get
+				$rtg_id = $IDobj[$key];
+				$sql = "UPDATE results_to_get SET rtgDetail = '$rgt_name' WHERE IDrtg = '$rtg_id'";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateRgtResult = false;
+					$updateRgtError = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลผลคาดว่าที่จะได้รับ \"$rtg_id\" ได้<br>";
+				}
+			} else {
+				// Add new results_to_get
+				$sql = "INSERT INTO results_to_get VALUES(NULL, '$code', '$rgt_name')";
+				$result = mysql_query($sql, $dbConn);
+				if(!$result) {
+					$updateRgtResult = false;
+					$updateRgtError = "<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลผลคาดว่าที่จะได้รับ \"$rgt_name\" ได้<br>";
+				}
+			}
+		}
+
+		redirect('show_plan.php');
 	}
 	
 }

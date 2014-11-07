@@ -30,5 +30,9 @@ function dbClose() {
 	global $dbConn;
 	return mysql_close($dbConn);
 }
+
+function redirect($url) {
+	echo "<script>window.location.href='$url'</script>";
+}
 ?>
 

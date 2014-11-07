@@ -117,29 +117,35 @@ if($rows > 0) {
 			addResultToGet({});
 		} else if(action == 'EDIT') {
 			<?
-			foreach ($riskFactorList as $key => $value) {
-				?>
-				addRiskfacName({
-					IDriskfac		: "<?=$value['IDriskfac']?>",
-					defaultValue	: "<?=$value['riskfacName']?>"
-				});
-				<?
+			if(isset($riskFactorList)) {
+				foreach ($riskFactorList as $key => $value) {
+					?>
+					addRiskfacName({
+						IDriskfac		: "<?=$value['IDriskfac']?>",
+						defaultValue	: "<?=$value['riskfacName']?>"
+					});
+					<?
+				}
 			}
-			foreach ($objectiveList as $key => $value) {
-				?>
-				addObjective({
-					IDobj			: "<?=$value['IDobj']?>",
-					defaultValue	: "<?=$value['detail']?>"
-				});
-				<?
+			if(isset($objectiveList)) {
+				foreach ($objectiveList as $key => $value) {
+					?>
+					addObjective({
+						IDobj			: "<?=$value['IDobj']?>",
+						defaultValue	: "<?=$value['detail']?>"
+					});
+					<?
+				}
 			}
-			foreach ($resultToGetList as $key => $value) {
-				?>
-				addResultToGet({
-					IDrtg			: "<?=$value['IDrtg']?>",
-					defaultValue	: "<?=$value['rtgDetail']?>"
-				});
-				<?
+			if(isset($resultToGetList)) {
+				foreach ($resultToGetList as $key => $value) {
+					?>
+					addResultToGet({
+						IDrtg			: "<?=$value['IDrtg']?>",
+						defaultValue	: "<?=$value['rtgDetail']?>"
+					});
+					<?
+				}
 			}
 			?>
 		}
@@ -196,7 +202,7 @@ if($rows > 0) {
                         + ' 		<input id="' + inputKeyId + '" name="objDtl[]" type="text" class="form-input full" value="' + defaultValue + '" require>';
 
         // add pkgsvl id for update
-        if(action == 'EDIT' && typeof(data.IDriskfac) != 'undefined') {
+        if(action == 'EDIT' && typeof(data.IDobj) != 'undefined') {
             rowHTML += '         <input name="IDobj[]" type="hidden" value="' + data.IDobj + '">';
         }
 
@@ -230,7 +236,7 @@ if($rows > 0) {
                         + ' 		<input id="' + inputKeyId + '" name="rtgDetail[]" type="text" class="form-input full" value="' + defaultValue + '" require>';
 
         // add pkgsvl id for update
-        if(action == 'EDIT' && typeof(data.IDriskfac) != 'undefined') {
+        if(action == 'EDIT' && typeof(data.IDrtg) != 'undefined') {
             rowHTML += '         <input name="IDrtg[]" type="hidden" value="' + data.IDrtg + '">';
         }
 
@@ -295,7 +301,7 @@ if($rows > 0) {
 </head>
 <body>
 <h3><?=$title?></h3>
-<form id="form-table" name="form-table" action="manage_plan.php">
+<form id="form-table" name="form-table" action="manage_plan.php" method="post">
 	<input type="hidden" name="code" value="<?=$code?>">
     <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0">
 	    <tbody>
