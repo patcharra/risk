@@ -21,6 +21,8 @@ $IDobj 					= '';
 $objDtl 				= '';
 $IDrtg 					= '';
 $rtgDetail 				= '';
+$IDunit_riskchance 		= '';
+$IDunit_impact			= '';
 
 if(isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
@@ -85,6 +87,12 @@ if(isset($_REQUEST['targetValue1'])) {
 if(isset($_REQUEST['targetValue2'])) {
 	$targetValue2 = $_REQUEST['targetValue2'];
 }
+if(isset($_REQUEST['IDunit_riskchance'])) {
+	$IDunit_riskchance = $_REQUEST['IDunit_riskchance'];
+}
+if(isset($_REQUEST['IDunit_impact'])) {
+	$IDunit_impact = $_REQUEST['IDunit_impact'];
+}
 
 if($code == ''){
 	date_default_timezone_set("Asia/Bangkok");
@@ -111,7 +119,9 @@ if($code == ''){
 								'$IDstrategy',
 								'$day',
 								'$month',
-								'$year' )";
+								'$year',
+								'$IDunit_riskchance',
+								'$IDunit_impact' )";
 	$result = mysql_query($sql, $dbConn);
 
 	if(!$result) {
@@ -233,7 +243,9 @@ if($code == ''){
 								IDstrategy 				= '$IDstrategy',
 								d_insert 				= '$day',
 								m_insert 				= '$m_insert',
-								y_insert 				= '$y_insert' 
+								y_insert 				= '$y_insert',
+								IDunit_riskchance 		= '$IDunit_riskchance',
+								IDunit_impact 			= '$IDunit_impact' 
 							WHERE IDplan = '$code'";
 		$result = mysql_query($sql, $dbConn);
 		if(!$result) {

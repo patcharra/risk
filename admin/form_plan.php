@@ -430,6 +430,46 @@ if($rows > 0) {
 				    </select>
 			    </td>
 		    </tr>
+		    <tr>
+		    	<td colspan="2">
+		    		<label class="input-required">หน่วยของโอกาสจะเกิดความเสี่ยง</label>
+		    		<select id="IDunit_riskchance" name="IDunit_riskchance" class="form-input full">
+				    	<?
+				    	foreach ($unitList as $id => $name) {
+				    		if($id == $planRow['IDunit_riskchance']) {
+				    			?>
+					    		<option value="<?=$id?>" selected><?=$name?></option>
+					    		<?
+				    		}  else {
+				    			?>
+					    		<option value="<?=$id?>"><?=$name?></option>
+					    		<?
+				    		}
+				    	}
+				    	?>
+				    </select>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td colspan="2">
+		    		<label class="input-required">หน่วยของผลกระทบต่อองค์กร</label>
+		    		<select id="IDunit_impact" name="IDunit_impact" class="form-input full">
+				    	<?
+				    	foreach ($unitList as $id => $name) {
+				    		if($id == $planRow['IDunit_impact']) {
+				    			?>
+					    		<option value="<?=$id?>" selected><?=$name?></option>
+					    		<?
+				    		}  else {
+				    			?>
+					    		<option value="<?=$id?>"><?=$name?></option>
+					    		<?
+				    		}
+				    	}
+				    	?>
+				    </select>
+		    	</td>
+		    </tr>
 		    <tr class="errMsgRow">
                 <td>
                     <span id="err-criteriaValue-require" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัด</span>
