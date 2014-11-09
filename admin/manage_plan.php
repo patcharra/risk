@@ -123,7 +123,7 @@ if($code == ''){
 								'$IDunit_riskchance',
 								'$IDunit_impact' )";
 	$result = mysql_query($sql, $dbConn);
-
+	
 	if(!$result) {
 		?>
 		<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลแผนงานได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล

@@ -23,7 +23,7 @@ $rows	= mysql_num_rows($result);
 </head>
 <body>
 <h3>โอกาสเกิดความเสี่ยงเชิงปริมาณ</h3>
-<a href="form_risktype.php" class="btn">
+<a href="form_riskchance_quan.php" class="btn">
 	<button class="myButton">เพิ่มโอกาสเกิดความเสี่ยงเชิงปริมาณ</button>
 </a>
 <br><br>
@@ -54,10 +54,10 @@ if($rows > 0) {
 			?>
 			<tr>
 				<td class="action-col">
-					<a href="form_risktype.php?code=<?=$rskchcQuan_id?>" >
+					<a href="form_riskchance_quan.php?code=<?=$rskchcQuan_id?>" >
 						<button>แก้ไข</button>
 					</a>
-					<a href="manage_risktype.php?code=<?=$rskchcQuan_id?>&action=DELETE" onClick="return confirm('คุณต้องการลบประเภทความเสี่ยง <?=$rsktyp_name?> ใช่หรือไม่?')">
+					<a href="manage_riskchance_quan.php?code=<?=$rskchcQuan_id?>&action=DELETE" onClick="return confirm('คุณต้องการลบประเภทความเสี่ยง <?=$rsktyp_name?> ใช่หรือไม่?')">
 						<button>ลบ</button>
 					</a>
 				</td>
