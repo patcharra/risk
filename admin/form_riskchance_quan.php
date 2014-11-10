@@ -185,6 +185,7 @@ if($rows > 0) {
 		    <tr>
 			    <td colspan="2">
 				    <label class="input-required">รายละเอียด</label>
+				    <span style="display:block;color:#888;">ใส่ %u แทนหน่วยนับ, ใส่ %v แทนค่าสุทธิ, ใส่ %vmin แทนค่าเริ่มต้น, ใส่ %vmax แทนค่าสิ้นสุด</span>
 				    <textarea id="detail" name="detail" class="form-input full" rows="5" require><?=$rskchcRow['detail']?></textarea>
 			    </td>
 		    </tr>

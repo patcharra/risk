@@ -23,6 +23,8 @@ $IDrtg 					= '';
 $rtgDetail 				= '';
 $IDunit_riskchance 		= '';
 $IDunit_impact			= '';
+$riskchance_type 		= '';
+$impact_type 			= '';
 
 if(isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
@@ -93,6 +95,12 @@ if(isset($_REQUEST['IDunit_riskchance'])) {
 if(isset($_REQUEST['IDunit_impact'])) {
 	$IDunit_impact = $_REQUEST['IDunit_impact'];
 }
+if(isset($_REQUEST['riskchance_type'])) {
+	$riskchance_type = $_REQUEST['riskchance_type'];
+}
+if(isset($_REQUEST['impact_type'])) {
+	$impact_type = $_REQUEST['impact_type'];
+}
 
 date_default_timezone_set("Asia/Bangkok");
 $day 	= date('d');
@@ -121,7 +129,9 @@ if($code == ''){
 								'$month',
 								'$year',
 								'$IDunit_riskchance',
-								'$IDunit_impact' )";
+								'$IDunit_impact',
+								'$riskchance_type',
+								'$impact_type' )";
 	$result = mysql_query($sql, $dbConn);
 	
 	if(!$result) {
@@ -245,7 +255,9 @@ if($code == ''){
 								m_insert 				= '$month',
 								y_insert 				= '$year',
 								IDunit_riskchance 		= '$IDunit_riskchance',
-								IDunit_impact 			= '$IDunit_impact' 
+								IDunit_impact 			= '$IDunit_impact',
+								riskchance_type			= '$riskchance_type',
+								impact_type				= '$impact_type' 
 							WHERE IDplan = '$code'";
 		$result = mysql_query($sql, $dbConn);
 		if(!$result) {

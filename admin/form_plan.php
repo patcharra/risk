@@ -430,11 +430,37 @@ if($rows > 0) {
 				    </select>
 			    </td>
 		    </tr>
+		    <tr class="errMsgRow">
+                <td>
+                    <span id="err-criteriaValue-require" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัด</span>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+            	<td colspan="2">
+            		<label class="input-required">ประเภทของโอกาสจะเกิดความเสี่ยง</label>
+            		<select id="riskchance_type" name="riskchance_type" class="form-input full">
+            		<?php
+            		if($planRow['riskchance_type'] == 'quanl') {
+            			?>
+            			<option value="quan">เชิงปริมาณ</option>
+            			<option value="qual" selected>เชิงคุณภาพ</option>
+            			<?php
+            		} else {
+            			?>
+            			<option value="quan" selected>เชิงปริมาณ</option>
+            			<option value="qual">เชิงคุณภาพ</option>
+            			<?php
+            		}
+            		?>
+            		</select>
+            	</td>
+            </tr>
 		    <tr>
 		    	<td colspan="2">
 		    		<label class="input-required">หน่วยของโอกาสจะเกิดความเสี่ยง</label>
 		    		<select id="IDunit_riskchance" name="IDunit_riskchance" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($unitList as $id => $name) {
 				    		if($id == $planRow['IDunit_riskchance']) {
 				    			?>
@@ -450,6 +476,26 @@ if($rows > 0) {
 				    </select>
 		    	</td>
 		    </tr>
+		    <tr>
+            	<td colspan="2">
+            		<label class="input-required">ประเภทของผลกระทบต่อองค์กร</label>
+            		<select id="impact_type" name="impact_type" class="form-input full">
+            		<?php
+            		if($planRow['impact_type'] == 'quanl') {
+            			?>
+            			<option value="quan">เชิงปริมาณ</option>
+            			<option value="qual" selected>เชิงคุณภาพ</option>
+            			<?php
+            		} else {
+            			?>
+            			<option value="quan" selected>เชิงปริมาณ</option>
+            			<option value="qual">เชิงคุณภาพ</option>
+            			<?php
+            		}
+            		?>
+            		</select>
+            	</td>
+            </tr>
 		    <tr>
 		    	<td colspan="2">
 		    		<label class="input-required">หน่วยของผลกระทบต่อองค์กร</label>
@@ -471,10 +517,7 @@ if($rows > 0) {
 		    	</td>
 		    </tr>
 		    <tr class="errMsgRow">
-                <td>
-                    <span id="err-criteriaValue-require" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัด</span>
-                </td>
-                <td>
+                <td colspan="2">
                     <span id="err-criteriaUnit-require" class="errInputMsg err-criteriaUnit">โปรดกรอกหน่วยเกณฑ์วัด</span>
                 </td>
             </tr>
