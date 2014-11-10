@@ -441,7 +441,7 @@ if($rows > 0) {
             		<label class="input-required">ประเภทของโอกาสจะเกิดความเสี่ยง</label>
             		<select id="riskchance_type" name="riskchance_type" class="form-input full">
             		<?php
-            		if($planRow['riskchance_type'] == 'quanl') {
+            		if($planRow['riskchance_type'] == 'qual') {
             			?>
             			<option value="quan">เชิงปริมาณ</option>
             			<option value="qual" selected>เชิงคุณภาพ</option>
@@ -481,7 +481,7 @@ if($rows > 0) {
             		<label class="input-required">ประเภทของผลกระทบต่อองค์กร</label>
             		<select id="impact_type" name="impact_type" class="form-input full">
             		<?php
-            		if($planRow['impact_type'] == 'quanl') {
+            		if($planRow['impact_type'] == 'qual') {
             			?>
             			<option value="quan">เชิงปริมาณ</option>
             			<option value="qual" selected>เชิงคุณภาพ</option>
@@ -528,7 +528,7 @@ if($rows > 0) {
             <tr>
 			    <td colspan="2">
 				    <label class="input-required">หลักการและเหตุผล</label>
-				    <textarea id="rationale" name="rationale" class="form-input full" rows="10" require><?=$planRow['risk']?></textarea>
+				    <textarea id="rationale" name="rationale" class="form-input full" rows="10" require><?=$planRow['rationale']?></textarea>
 			    </td>
 		    </tr>
             <tr class="errMsgRow">

@@ -74,7 +74,9 @@ if($rows > 0) {
 	<?php
 } else {
 	?>
-	ไม่พบข้อมูล
+	<font color="red">
+		<i>ไม่พบข้อมูล</i>
+	</font>
 	<?php
 }
 ?>

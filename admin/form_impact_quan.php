@@ -3,27 +3,27 @@ require('../common/common_header.php');
 $code = '';
 if(isset($_REQUEST['code'])) {
 	// Edit data will select
-	$title	= 'แก้ไขข้อมูลโอกาสเกิดความเสี่ยงเชิงปริมาณ';
+	$title	= 'แก้ไขข้อมูลผลกระทบต่อองค์กรเชิงปริมาณ';
 
 	$code 	= $_REQUEST['code'];
-	$sql 	= "SELECT 	r.*,
+	$sql 	= "SELECT 	i.*,
 						u.unitName 
-				FROM 	riskchance_quan r, plan p, unit u  
-				WHERE 	r.IDplan = p.IDplan AND p.IDunit_riskchance = u.IDunit  
-						AND r.IDrcq = '$code'";
+				FROM 	impact_quan i, plan p, unit u  
+				WHERE 	i.IDplan = p.IDplan AND p.IDunit_impact = u.IDunit 
+						AND i.IDimQn = '$code'";
 	$result = mysql_query($sql, $dbConn);
 	$rows	= mysql_num_rows($result);
 	if($rows > 0) {
-		$rskchcRow = mysql_fetch_assoc($result);
+		$impRow = mysql_fetch_assoc($result);
 	}
 } else {
-	$title		= 'เพิ่มข้อมูลโอกาสเกิดความเสี่ยงเชิงปริมาณ';
+	$title		= 'เพิ่มข้อมูลผลกระทบต่อองค์กรเชิงปริมาณ';
 }
 
 // find plan
 date_default_timezone_set("Asia/Bangkok");
 $year 	= date('Y');
-$sql = "SELECT IDplan, planName FROM plan where y_insert = '$year' AND riskchance_type = 'quan'";
+$sql = "SELECT IDplan, planName FROM plan where y_insert = '$year' AND impact_type = 'quan'";
 $result = mysql_query($sql, $dbConn);
 $rowsPlan = mysql_num_rows($result);
 if($rowsPlan > 0) {
@@ -35,14 +35,14 @@ if($rowsPlan > 0) {
 }
 
 // find level
-$sql = "SELECT levelO, mean FROM level_and_meano";
+$sql = "SELECT levelP, mean FROM level_and_meanp";
 $result = mysql_query($sql, $dbConn);
 $rows = mysql_num_rows($result);
 if($rows > 0) {
 	$levelList = array();
 	for($i=0; $i<$rows; $i++) {
 		$tmpRow = mysql_fetch_assoc($result);
-		$levelList[$tmpRow['levelO']] = $tmpRow['levelO'].' ('.$tmpRow['mean'].')';
+		$levelList[$tmpRow['levelP']] = $tmpRow['levelP'].' ('.$tmpRow['mean'].')';
 	}
 }
 ?>
@@ -147,12 +147,12 @@ if($rows > 0) {
 <?php
 if($rowsPlan <= 0) {
 	?>
-	<font color="red">ไม่พบแผนงานที่มีโอกาสเกิดความเสี่ยงแบบเชิงปริมาณ</font><br><br>
-	<a href="show_riskchance_quan.php">ย้อนกลับ</a>
+	<font color="red">ไม่พบแผนงานที่มีประเภทผลกระทบต่อองค์กรแบบเชิงปริมาณ</font><br><br>
+	<a href="show_impact_quan.php">ย้อนกลับ</a>
 	<?php
 } else {
 ?>
-<form id="form-table" name="form-table" action="manage_riskchance_quan.php">
+<form id="form-table" name="form-table" action="manage_impact_quan.php">
 	<input type="hidden" name="code" value="<?=$code?>">
     <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0">
 	    <tbody>
@@ -162,7 +162,7 @@ if($rowsPlan <= 0) {
 				    <select id="IDplan" name="IDplan" class="form-input full">
 				    	<?
 				    	foreach ($planList as $id => $name) {
-				    		if($id == $rskchcRow['IDplan']) {
+				    		if($id == $impRow['IDplan']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
 					    		<?
@@ -182,7 +182,7 @@ if($rowsPlan <= 0) {
 				    <select id="level" name="level" class="form-input full">
 				    	<?
 				    	foreach ($levelList as $id => $name) {
-				    		if($id == $rskchcRow['level']) {
+				    		if($id == $impRow['level']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
 					    		<?
@@ -205,7 +205,7 @@ if($rowsPlan <= 0) {
 				    	<li>ใส่ %vmin แทนค่าเริ่มต้น</li>
 				    	<li>ใส่ %vmax แทนค่าสิ้นสุด</li>
 				    </ul>
-				    <textarea id="detail" name="detail" class="form-input full" rows="5" require><?=$rskchcRow['detail']?></textarea>
+				    <textarea id="detail" name="detail" class="form-input full" rows="5" require><?=$impRow['detail']?></textarea>
 			    </td>
 		    </tr>
             <tr class="errMsgRow">
@@ -222,8 +222,8 @@ if($rowsPlan <= 0) {
             </tr>
             <tr id="quantity_row">
 			    <td colspan="2">
-				    <label class="input-required">ค่าสุทธิ (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
-				    <input id="quantity" name="quantity" type="text" class="form-input full" value="<?=$rskchcRow['quantity']?>" valuepattern="money" require>
+				    <label class="input-required">ค่าสุทธิ (<span class="unitName"><?=$impRow['unitName']?></span>)</label>
+				    <input id="quantity" name="quantity" type="text" class="form-input full" value="<?=$impRow['quantity']?>" valuepattern="money" require>
 			    </td>
 		    </tr>
             <tr class="errMsgRow">
@@ -234,12 +234,12 @@ if($rowsPlan <= 0) {
             </tr>
             <tr class="quantityMinMax" style="display:none;">
 			    <td>
-				    <label class="input-required">ค่าเริ่มต้น (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
-				    <input id="quantitymin" name="quantitymin" type="text" class="form-input half" value="<?=$rskchcRow['quantitymin']?>" valuepattern="money">
+				    <label class="input-required">ค่าเริ่มต้น (<span class="unitName"><?=$impRow['unitName']?></span>)</label>
+				    <input id="quantitymin" name="quantitymin" type="text" class="form-input half" value="<?=$impRow['quantitymin']?>" valuepattern="money">
 			    </td>
 			    <td>
-				    <label class="input-required">ค่าสิ้นสุด (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
-				    <input id="quantitymax" name="quantitymax" type="text" class="form-input half" value="<?=$rskchcRow['quantitymax']?>" valuepattern="money">
+				    <label class="input-required">ค่าสิ้นสุด (<span class="unitName"><?=$impRow['unitName']?></span>)</label>
+				    <input id="quantitymax" name="quantitymax" type="text" class="form-input half" value="<?=$impRow['quantitymax']?>" valuepattern="money">
 			    </td>
 		    </tr>
             <tr class="errMsgRow">
@@ -268,7 +268,7 @@ if($rowsPlan <= 0) {
     }
     ?>
     
-    <a href="show_riskchance_quan.php" class="btn">
+    <a href="show_impact_quan.php" class="btn">
 		<button class="myButton" type="button">ยกเลิก</button>
 	</a>
 </form>
