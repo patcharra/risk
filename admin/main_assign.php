@@ -91,8 +91,13 @@ if(isset($_POST["sub"])){
 }
 ?>
 
+<?php
+$query2 = "select IDassign,agenName,rmpName from assignment a, agency aa,risk_manage_plan r where a.IDrmp = r.IDrmp and a.IDagen = aa.IDagen order by IDassign"; 
+$query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
+$rows = mysql_num_rows($query_db2);
+if($rows > 0){
 
-
+?>
 <table class= "table-data">
 <tr>
 <th></th>
@@ -103,30 +108,36 @@ if(isset($_POST["sub"])){
 </tr>
 
 <?php
-$query2 = "select IDassign,agenName,rmpName from assignment a, agency aa,risk_manage_plan r where a.IDrmp = r.IDrmp and a.IDagen = aa.IDagen order by IDassign"; 
-$query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
-$row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
+
+	$row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
 
-do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
-?>
-<tr>
-<td><a href="update_assign.php?id=<?=$row_db2['IDassign']?>"><button>แก้ไข</button></a></td>
-<td><a href="delete_assign.php?id=<?=$row_db2['IDassign']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ?')"><button>ลบ</button></a></td>
-<td ><center>&nbsp;<?=$count++?></center></td>
-<td >&nbsp;<?=$row_db2['rmpName']?> </td>
-<td >&nbsp;<?=$row_db2['agenName']?> </td>
-</tr>
-<?                                                 
-                                                      
-}while ($row_db2 = mysql_fetch_assoc($query_db2));
+	do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
+	?>
+	<tr>
+	<td><a href="update_assign.php?id=<?=$row_db2['IDassign']?>"><button>แก้ไข</button></a></td>
+	<td><a href="delete_assign.php?id=<?=$row_db2['IDassign']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ?')"><button>ลบ</button></a></td>
+	<td ><center>&nbsp;<?=$count++?></center></td>
+	<td >&nbsp;<?=$row_db2['rmpName']?> </td>
+	<td >&nbsp;<?=$row_db2['agenName']?> </td>
+	</tr>
+	<?php                                                 
+														  
+	}while ($row_db2 = mysql_fetch_assoc($query_db2));
+
 
 ?>
 </table>
 
+
+
 <?php
+
+}else{
+	echo "<font color='red'><i>ไม่พบข้อมูล</i></font>";
+}
+
 mysql_free_result($query_db);//เลิกติดต่อ Mysql
-//mysql_free_result($query_db2);//เลิกติดต่อ Mysql
 ?>
 
 
