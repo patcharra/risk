@@ -67,6 +67,13 @@ if(isset($_POST["sub"])){
 }
 ?>
 
+<?php
+$query2 = "select IDagen,agenName,agenInitname from agency"; 
+$query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
+$rows = mysql_num_rows($query_db2);
+if($rows > 0){
+
+?>
 
 
 <table class= "table-data">
@@ -79,28 +86,32 @@ if(isset($_POST["sub"])){
 </tr>
 
 <?php
-$query2 = "select IDagen,agenName,agenInitname from agency"; 
-$query_db2 = mysql_query($query2, $dbConn) or die(mysql_error());
-$row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
+	$row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
 
-do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
-?>
-<tr>
-<td><a href="update_agen.php?id=<?=$row_db2['IDagen']?>"><button>แก้ไข</button></a></td>
-<td><a href="delete_agen.php?id=<?=$row_db2['IDagen']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ  <?=$row_db2['agenName']?>?')"><button>ลบ</button></a></td>
-<td ><center>&nbsp;<?=$count++?></center></td>
-<td >&nbsp;<?=$row_db2['agenName']?> </td>
-<td >&nbsp;<?=$row_db2['agenInitname']?> </td>
-</tr>
-<?                                                 
-                                                      
-}while ($row_db2 = mysql_fetch_assoc($query_db2));
+	do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
+	?>
+	<tr>
+	<td><a href="update_agen.php?id=<?=$row_db2['IDagen']?>"><button>แก้ไข</button></a></td>
+	<td><a href="delete_agen.php?id=<?=$row_db2['IDagen']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ  <?=$row_db2['agenName']?>?')"><button>ลบ</button></a></td>
+	<td ><center>&nbsp;<?=$count++?></center></td>
+	<td >&nbsp;<?=$row_db2['agenName']?> </td>
+	<td >&nbsp;<?=$row_db2['agenInitname']?> </td>
+	</tr>
+	<?                                                 
+														  
+	}while ($row_db2 = mysql_fetch_assoc($query_db2));
 
 ?>
 </table>
 
 <?php
+
+}else{
+	echo "<font color='red'><i>ไม่พบข้อมูล</i></font>";
+}
+
+
 mysql_free_result($query_db);//เลิกติดต่อ Mysql
 //mysql_free_result($query_db2);//เลิกติดต่อ Mysql
 ?>
