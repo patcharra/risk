@@ -94,12 +94,12 @@ if(isset($_REQUEST['IDunit_impact'])) {
 	$IDunit_impact = $_REQUEST['IDunit_impact'];
 }
 
-if($code == ''){
-	date_default_timezone_set("Asia/Bangkok");
-	$day 	= date('d');
-	$month 	= date('m');
-	$year 	= date('Y');
+date_default_timezone_set("Asia/Bangkok");
+$day 	= date('d');
+$month 	= date('m');
+$year 	= date('Y');
 
+if($code == ''){
 	$sql = "INSERT INTO plan VALUES(NULL,
 								'$planName',
 								'$risk',
@@ -242,8 +242,8 @@ if($code == ''){
 								time 					= '$time',
 								IDstrategy 				= '$IDstrategy',
 								d_insert 				= '$day',
-								m_insert 				= '$m_insert',
-								y_insert 				= '$y_insert',
+								m_insert 				= '$month',
+								y_insert 				= '$year',
 								IDunit_riskchance 		= '$IDunit_riskchance',
 								IDunit_impact 			= '$IDunit_impact' 
 							WHERE IDplan = '$code'";

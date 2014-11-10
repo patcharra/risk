@@ -6,14 +6,15 @@ if(isset($_REQUEST['code'])) {
 	$title	= 'แก้ไขข้อมูลโอกาสเกิดความเสี่ยงเชิงปริมาณ';
 
 	$code 	= $_REQUEST['code'];
-	$sql 	= "SELECT 	typeName 
-				FROM 	risktype 
-				WHERE 	IDtype = '$code'";
+	$sql 	= "SELECT 	r.*,
+						u.unitName 
+				FROM 	riskchance_quan r, plan p, unit u  
+				WHERE 	r.IDplan = p.IDplan AND p.IDunit_riskchance = u.IDunit  
+						AND r.IDrcq = '$code'";
 	$result = mysql_query($sql, $dbConn);
 	$rows	= mysql_num_rows($result);
 	if($rows > 0) {
-		$rsktypRow = mysql_fetch_assoc($result);
-		$risktype  = $rsktypRow['typeName'];
+		$rskchcRow = mysql_fetch_assoc($result);
 	}
 } else {
 	$title		= 'เพิ่มข้อมูลโอกาสเกิดความเสี่ยงเชิงปริมาณ';
@@ -60,18 +61,69 @@ if($rows > 0) {
 			if($(this).val() == '1') {
 				$('#quantity_row').css('display', 'table-row');
 				$('#quantity').attr("require", true);
+				$('#quantity').attr("valuepattern", "money");
 				$('.quantityMinMax').css('display', 'none');
 				$('#quantitymin').removeAttr('require');
 				$('#quantitymax').removeAttr('require');
+				$('#quantitymin').removeAttr('valuepattern');
+				$('#quantitymax').removeAttr('valuepattern');
+				$('#quantitymin').removeClass('required');
+				$('#quantitymax').removeClass('required');
+				$('.err-quantitymin').css('display', 'none');
+				$('.err-quantitymax').css('display', 'none');
 			} else {
 				$('#quantity_row').css('display', 'none');
+				$('#quantitymin').attr("valuepattern", "money");
+				$('#quantitymax').attr("valuepattern", "money");
 				$('#quantity').removeAttr('require');
+				$('#quantity').removeAttr('valuepattern');
+				$('#quantity').removeClass('required');
 				$('.quantityMinMax').css('display', 'table-row');
 				$('#quantitymin').attr("require", true);
 				$('#quantitymax').attr("require", true);
+				$('.err-quantity').css('display', 'none');
 			}
 		});
+
+		$('#IDplan').change(function(){
+			getUnitName($('#IDplan').val());
+		});
+
+		getUnitName($('#IDplan').val());
 	});
+
+	function getUnitName(planID) {
+		$.ajax({
+			url: '../common/ajaxGetUnitNameOfPlan.php',
+			type: 'POST',
+			data: {
+				planID: planID
+			},
+			success:
+			function(response) {
+				$('.unitName').text(response);
+			}
+		})
+	}
+
+	function beforeSaveRecord() {
+		if($('#quantitymin').val() != '' && $('#quantitymax').val()) {
+			var min = parseFloat($('#quantitymin').val());
+			var max = parseFloat($('#quantitymax').val());
+			if(min >= max) {
+				alert("คุณกรอกค่าเริ่มต้น และค่าสิ้นสุดไม่ถูกต้อง\nค่าเริ่มต้นต้องน้อยกว่าค่าสิ้นสุด");
+				$('#quantitymin').addClass('required');
+				$('#quantitymax').addClass('required');
+				return false;
+			} else {
+				$('#quantitymin').removeClass('required');
+				$('#quantitymax').removeClass('required');
+				$('.err-quantitymin').css('display', 'none');
+				$('.err-quantitymax').css('display', 'none');
+			}
+		}
+		return true;
+	}
 	</script>
 </head>
 <body>
@@ -140,7 +192,7 @@ if($rows > 0) {
             </tr>
             <tr id="quantity_row">
 			    <td colspan="2">
-				    <label class="input-required">ค่าสุทธิ</label>
+				    <label class="input-required">ค่าสุทธิ (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
 				    <input id="quantity" name="quantity" type="text" class="form-input full" value="<?=$rskchcRow['quantity']?>" valuepattern="money" require>
 			    </td>
 		    </tr>
@@ -152,11 +204,11 @@ if($rows > 0) {
             </tr>
             <tr class="quantityMinMax" style="display:none;">
 			    <td>
-				    <label class="input-required">ค่าเริ่มต้น</label>
+				    <label class="input-required">ค่าเริ่มต้น (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
 				    <input id="quantitymin" name="quantitymin" type="text" class="form-input half" value="<?=$rskchcRow['quantitymin']?>" valuepattern="money">
 			    </td>
 			    <td>
-				    <label class="input-required">ค่าสิ้นสุด</label>
+				    <label class="input-required">ค่าสิ้นสุด (<span class="unitName"><?=$rskchcRow['unitName']?></span>)</label>
 				    <input id="quantitymax" name="quantitymax" type="text" class="form-input half" value="<?=$rskchcRow['quantitymax']?>" valuepattern="money">
 			    </td>
 		    </tr>

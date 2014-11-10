@@ -11,6 +11,10 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	// Check Input required and pattern
+    $('#form-table input').filter('[require],[valuepattern]').focusout(validateInput);
+    $('#form-table textarea').filter('[require],[valuepattern]').focusout(validateInput);
 });
 
 function checkFormInput() {
@@ -21,7 +25,7 @@ function checkFormInput() {
 
 	// Do someting before save
 	if(typeof beforeSaveRecord == 'function') {
-		if(beforeSaveRecord()) {
+		if(!beforeSaveRecord()) {
 			pass = false;
 		}
 	}

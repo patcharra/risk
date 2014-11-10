@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $sql = "SELECT 	r.IDrcq,
 				r.detail,
@@ -27,7 +27,7 @@ $rows	= mysql_num_rows($result);
 	<button class="myButton">เพิ่มโอกาสเกิดความเสี่ยงเชิงปริมาณ</button>
 </a>
 <br><br>
-<?
+<?php
 if($rows > 0) {
 	?>
 	<table class="table-data">
@@ -41,7 +41,7 @@ if($rows > 0) {
 			</tr>
 		</thead>
 		<tbody>
-		<?
+		<?php
 		for($i=0; $i<$rows; $i++) {
 			$rskchcQuanRow 	 	= mysql_fetch_assoc($result);
 			$no 	 	 		= $i+1;
@@ -63,19 +63,19 @@ if($rows > 0) {
 				</td>
 				<td align="center"><?=$no?></td>
 				<td><?=$detail?></td>
-				<td><? echo $rskchcQuanRow['level'].' ('.$rskchcQuanRow['levelMean'].')'; ?></td>
+				<td><?php echo $rskchcQuanRow['level'].' ('.$rskchcQuanRow['levelMean'].')'; ?></td>
 				<td><?=$rskchcQuanRow['planName']?></td>
 			</tr>
-			<?
+			<?php
 		}
 		?>
 		</tbody>
 	</table>
-	<?
+	<?php
 } else {
 	?>
 	ไม่พบข้อมูล
-	<?
+	<?php
 }
 ?>
 </body>
