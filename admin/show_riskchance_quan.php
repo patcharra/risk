@@ -57,7 +57,7 @@ if($rows > 0) {
 					<a href="form_riskchance_quan.php?code=<?=$rskchcQuan_id?>" >
 						<button>แก้ไข</button>
 					</a>
-					<a href="manage_riskchance_quan.php?code=<?=$rskchcQuan_id?>&action=DELETE" onClick="return confirm('คุณต้องการลบประเภทความเสี่ยง <?=$rsktyp_name?> ใช่หรือไม่?')">
+					<a href="manage_riskchance_quan.php?code=<?=$rskchcQuan_id?>&action=DELETE" onClick="return confirm('คุณต้องการลบโอกาสเกิดความเสี่ยงเชิงปริมาณ <?=$detail?> ใช่หรือไม่?')">
 						<button>ลบ</button>
 					</a>
 				</td>

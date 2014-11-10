@@ -69,6 +69,8 @@ if($rows > 0) {
 				$('#quantitymax').removeAttr('valuepattern');
 				$('#quantitymin').removeClass('required');
 				$('#quantitymax').removeClass('required');
+				$('#quantitymin').val('');
+				$('#quantitymax').val('');
 				$('.err-quantitymin').css('display', 'none');
 				$('.err-quantitymax').css('display', 'none');
 			} else {
@@ -78,6 +80,7 @@ if($rows > 0) {
 				$('#quantity').removeAttr('require');
 				$('#quantity').removeAttr('valuepattern');
 				$('#quantity').removeClass('required');
+				$('#quantity').val('');
 				$('.quantityMinMax').css('display', 'table-row');
 				$('#quantitymin').attr("require", true);
 				$('#quantitymax').attr("require", true);
@@ -90,6 +93,12 @@ if($rows > 0) {
 		});
 
 		getUnitName($('#IDplan').val());
+
+		if($('#quantity').val() == '' || $('#quantity').val() == '0') {
+			$('#chk_quantype2').click();
+		} else {
+			$('#chk_quantype1').click();
+		}
 	});
 
 	function getUnitName(planID) {
@@ -107,7 +116,8 @@ if($rows > 0) {
 	}
 
 	function beforeSaveRecord() {
-		if($('#quantitymin').val() != '' && $('#quantitymax').val()) {
+		if($('#quantitymin').val() != '' && $('#quantitymax').val() != '' 
+			&& $('#quantitymin').val() != '0' && $('#quantitymax').val() != '0') {
 			var min = parseFloat($('#quantitymin').val());
 			var max = parseFloat($('#quantitymax').val());
 			if(min >= max) {
@@ -128,7 +138,7 @@ if($rows > 0) {
 </head>
 <body>
 <h3><?=$title?></h3>
-<form id="form-table" name="form-table" action="manage_risktype.php">
+<form id="form-table" name="form-table" action="manage_riskchance_quan.php">
 	<input type="hidden" name="code" value="<?=$code?>">
     <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0">
 	    <tbody>
@@ -186,8 +196,8 @@ if($rows > 0) {
             <tr>
             	<td colspan="2">
             		<label>รูปแบบค่า</label>
-            		<input type="radio" name="quantype" value="1" checked> ค่าสุทธิ &nbsp;&nbsp;&nbsp;&nbsp;
-            		<input type="radio" name="quantype" value="2"> ช่วง<br><br>
+            		<input id="chk_quantype1" type="radio" name="quantype" value="1" checked> ค่าสุทธิ &nbsp;&nbsp;&nbsp;&nbsp;
+            		<input id="chk_quantype2" type="radio" name="quantype" value="2"> ช่วง<br><br>
             	</td>
             </tr>
             <tr id="quantity_row">
