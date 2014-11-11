@@ -30,13 +30,13 @@ $rows	= mysql_num_rows($result);
 <?php
 if($rows > 0) {
 	?>
-	<table class="table-data">
+	<table class="table-data" style="width: 100%;">
 		<thead>
 			<tr>
 				<th class="action-col"></th>
 				<th>ลำดับ</th>
-				<th>ผลกระทบต่อองค์กรเชิงปริมาณ</th>
-				<th>ระดับ</th>
+				<th width="350px">รายละเอียด</th>
+				<th width="120px">ระดับ</th>
 				<th>แผนงาน</th>
 			</tr>
 		</thead>
@@ -48,9 +48,9 @@ if($rows > 0) {
 			$impQuan_id 	 	= $impQuanRow['IDimQn'];
 			$detail 			= $impQuanRow['detail'];
 			$detail				= str_replace('%u', $impQuanRow['unitName'], $detail);
-			$detail				= str_replace('%v', $impQuanRow['quantity'], $detail);
-			$detail				= str_replace('%vmin', $impQuanRow['quantitymin'], $detail);
-			$detail				= str_replace('%vmax', $impQuanRow['quantitymax'], $detail);
+			$detail				= str_replace('%v', number_format($impQuanRow['quantity']), $detail);
+			$detail				= str_replace('%vmin', number_format($impQuanRow['quantitymin']), $detail);
+			$detail				= str_replace('%vmax', number_format($impQuanRow['quantitymax']), $detail);
 			?>
 			<tr>
 				<td class="action-col">
@@ -62,8 +62,8 @@ if($rows > 0) {
 					</a>
 				</td>
 				<td align="center"><?=$no?></td>
-				<td><?=$detail?></td>
-				<td><?php echo $impQuanRow['level'].' ('.$impQuanRow['levelMean'].')'; ?></td>
+				<td width="350px"><?=$detail?></td>
+				<td width="120px"><?php echo $impQuanRow['level'].' ('.$impQuanRow['levelMean'].')'; ?></td>
 				<td><?=$impQuanRow['planName']?></td>
 			</tr>
 			<?php

@@ -19,12 +19,17 @@
 .table-data td {
 	border: 1px solid #555;
 	padding: 5px;
+	vertical-align: top;
 }
 .table-data th {
 	background: #EF8F5C;
 	color: white;
 	padding: 5px;
 	border: 1px solid #555;
+}
+.table-data td.action-col {
+	text-align: center;
+	width: 100px;
 }
 .table-data td.action-col a {
 	text-decoration: none;

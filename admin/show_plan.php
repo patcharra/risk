@@ -23,7 +23,7 @@ $rows	= mysql_num_rows($result);
 <?
 if($rows > 0) {
 	?>
-	<table class="table-data">
+	<table class="table-data" style="width: 100%;">
 		<thead>
 			<tr>
 				<th class="action-col"></th>

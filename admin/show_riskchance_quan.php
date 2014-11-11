@@ -30,13 +30,13 @@ $rows	= mysql_num_rows($result);
 <?php
 if($rows > 0) {
 	?>
-	<table class="table-data">
+	<table class="table-data" style="width: 100%;">
 		<thead>
 			<tr>
 				<th class="action-col"></th>
 				<th>ลำดับ</th>
-				<th>โอกาสเกิดความเสี่ยงเชิงปริมาณ</th>
-				<th>ระดับ</th>
+				<th width="350px">รายละเอียด</th>
+				<th width="120px">ระดับ</th>
 				<th>แผนงาน</th>
 			</tr>
 		</thead>
@@ -48,9 +48,9 @@ if($rows > 0) {
 			$rskchcQuan_id 	 	= $rskchcQuanRow['IDrcq'];
 			$detail 			= $rskchcQuanRow['detail'];
 			$detail				= str_replace('%u', $rskchcQuanRow['unitName'], $detail);
-			$detail				= str_replace('%v', $rskchcQuanRow['quantity'], $detail);
-			$detail				= str_replace('%vmin', $rskchcQuanRow['quantitymin'], $detail);
-			$detail				= str_replace('%vmax', $rskchcQuanRow['quantitymax'], $detail);
+			$detail				= str_replace('%v', number_format($rskchcQuanRow['quantity']), $detail);
+			$detail				= str_replace('%vmin', number_format($rskchcQuanRow['quantitymin']), $detail);
+			$detail				= str_replace('%vmax', number_format($rskchcQuanRow['quantitymax']), $detail);
 			?>
 			<tr>
 				<td class="action-col">
@@ -62,8 +62,8 @@ if($rows > 0) {
 					</a>
 				</td>
 				<td align="center"><?=$no?></td>
-				<td><?=$detail?></td>
-				<td><?php echo $rskchcQuanRow['level'].' ('.$rskchcQuanRow['levelMean'].')'; ?></td>
+				<td width="350px"><?=$detail?></td>
+				<td width="120px"><?php echo $rskchcQuanRow['level'].' ('.$rskchcQuanRow['levelMean'].')'; ?></td>
 				<td><?=$rskchcQuanRow['planName']?></td>
 			</tr>
 			<?php
