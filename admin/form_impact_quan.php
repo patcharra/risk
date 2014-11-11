@@ -22,7 +22,7 @@ if(isset($_REQUEST['code'])) {
 
 // find plan
 date_default_timezone_set("Asia/Bangkok");
-$year 	= date('Y');
+$year 	= (int)date('Y')+543;
 $sql = "SELECT IDplan, planName FROM plan where y_insert = '$year' AND impact_type = 'quan'";
 $result = mysql_query($sql, $dbConn);
 $rowsPlan = mysql_num_rows($result);
