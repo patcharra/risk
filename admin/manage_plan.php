@@ -217,7 +217,47 @@ if($code == ''){
 		$result = mysql_query($sql, $dbConn);
 		if(!$result) {
 			?>
-			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลวผลคาดว่าที่จะได้รับได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลผลคาดว่าที่จะได้รับได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+
+		//Delete riskchance_qual
+		$sql = "DELETE FROM riskchance_qual WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลวโอกาสเกิดความเสี่ยงเชิงคุณภาพได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+
+		//Delete riskchance_quan
+		$sql = "DELETE FROM riskchance_quan WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลวโอกาสเกิดความเสี่ยงเชิงปริมาณได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+
+		//Delete impact_qual
+		$sql = "DELETE FROM impact_qual WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลผลกระทบต่อองค์กรเชิงคุณภาพได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
+			<?
+			exit();
+		}
+
+		//Delete impact_quan
+		$sql = "DELETE FROM impact_quan WHERE IDplan = '$code'";
+		$result = mysql_query($sql, $dbConn);
+		if(!$result) {
+			?>
+			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลผลกระทบต่อองค์กรเชิงปริมาณได้ คลิก <a href="show_plan.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล<br>
 			<?
 			exit();
 		}
