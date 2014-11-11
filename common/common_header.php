@@ -34,5 +34,9 @@ function dbClose() {
 function redirect($url) {
 	echo "<script>window.location.href='$url'</script>";
 }
+
+$date_now 	= date('d');
+$month_now 	= date('m');
+$year_now 	= date('Y');
 ?>
 

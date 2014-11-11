@@ -105,7 +105,14 @@ if($rows > 0) {
     }
 	</style>
 	<script type="text/javascript">
-	var action = '<?=$action?>';
+	var action 		= '<?=$action?>';
+	var d_insert 	= "<?=$planRow['d_insert']?>";
+	var m_insert 	= "<?=$planRow['m_insert']?>";
+	var y_insert 	= "<?=$planRow['y_insert']?>";
+	var date_now 	= '<?=$date_now?>';
+	var month_now 	= '<?=$month_now?>';
+	var year_now 	= '<?=$year_now?>';
+
 	$(document).ready(function(){
 		$('#addRiskFactorBtn').click(addRiskfacName);
 		$('#addObjectiveBtn').click(addObjective);
@@ -148,6 +155,23 @@ if($rows > 0) {
 				}
 			}
 			?>
+		}
+
+		// select date insert auto
+		if(d_insert == '') {
+			$('#d_insert').val(date_now);
+		} else {
+			$('#d_insert').val(d_insert);
+		}
+		if(m_insert == '') {
+			$('#m_insert').val(month_now);
+		} else {
+			$('#m_insert').val(m_insert);
+		}
+		if(y_insert == '') {
+			$('#y_insert').val(parseInt(year_now)+543);
+		} else {
+			$('#y_insert').val(y_insert);
 		}
 	});
 
@@ -409,7 +433,7 @@ if($rows > 0) {
             <tr>
 			    <td>
 				    <label class="input-required">ค่าเกณฑ์วัด</label>
-				    <input id="criteriaValue" name="criteriaValue" type="text" class="form-input half" value="<?=$planRow['criteriaValue']?>" require>
+				    <input id="criteriaValue" name="criteriaValue" type="text" class="form-input half" value="<?=$planRow['criteriaValue']?>" valuepattern="number" require>
 			    </td>
 			    <td>
 				    <label class="input-required">หน่วยเกณฑ์วัด</label>
@@ -433,6 +457,7 @@ if($rows > 0) {
 		    <tr class="errMsgRow">
                 <td>
                     <span id="err-criteriaValue-require" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัด</span>
+                    <span id="err-criteriaValue-number" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัดเป็นตัวเลข</span>
                 </td>
                 <td></td>
             </tr>
@@ -606,7 +631,54 @@ if($rows > 0) {
     	</tbody>
     </table>
     <button id="addResultToGetBtn" type="button" class="myButton" style="margin-bottom:50px;">เพิ่มผลคาดว่าที่จะได้รับ</button><p></p>
-    <?
+    <table class="mbk-form-input-normal" cellpadding="0" cellspacing="0" style="margin-bottom:0;">
+	    <tbody>
+	    	<tr>
+	    		<td colspan="2">
+	    			<label class="input-required">วันที่เพิ่มแผนงาน</label>
+	    			<select id="d_insert" name="d_insert" class="form-input" require>
+	    				<option value=""></option>
+	    				<?php
+	    				for($i=1; $i<=31; $i++) {
+							?>
+	    					<option value="<?=$i?>"><?=$i?></option>
+	    					<?php
+	    				}
+	    				?>
+	    			</select>
+	    			<select id="m_insert" name="m_insert" class="form-input">
+	    				<option value="1">มกราคม</option>
+	    				<option value="2">กุมภาพันธ์</option>
+	    				<option value="3">มีนาคม</option>
+	    				<option value="4">เมษายน</option>
+	    				<option value="5">พฤษภาคม</option>
+	    				<option value="6">มิถุนายน</option>
+	    				<option value="7">กรกฎาคม</option>
+	    				<option value="8">สิงหาคม</option>
+	    				<option value="9">กันยายน</option>
+	    				<option value="10">ตุลาคม</option>
+	    				<option value="11">พฤศจิกายน</option>
+	    				<option value="12">ธันวาคม</option>
+	    			</select>
+	    			<select id="y_insert" name="y_insert" class="form-input">
+	    				<?php
+	    				for($i=2557; $i<=2590; $i++) {
+	    					?>
+	    					<option value="<?=$i?>"><?=$i?></option>
+	    					<?php
+	    				}
+	    				?>
+	    			</select>
+	    		</td>
+	    	</tr>
+	    	<tr class="errMsgRow">
+                <td colspan="2">
+                    <span id="err-d_insert-require" class="errInputMsg err-d_insert">โปรดกรอกวันที่</span>
+                </td>
+            </tr>
+	    </tbody>
+    </table>
+    <?php
     if($code == '') {
     	?>
     	<button id="addBtn" type="button" class="myButton" style="margin-right:10px;">เพิ่ม</button>

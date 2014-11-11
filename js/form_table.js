@@ -15,6 +15,7 @@ $(document).ready(function(){
 	// Check Input required and pattern
     $('#form-table input').filter('[require],[valuepattern]').focusout(validateInput);
     $('#form-table textarea').filter('[require],[valuepattern]').focusout(validateInput);
+    $('#form-table select').filter('[require],[valuepattern]').change(validateInput);
 });
 
 function checkFormInput() {
@@ -22,6 +23,7 @@ function checkFormInput() {
 
 	$('#form-table input').filter('[require],[valuepattern]').each(validateInput);
 	$('#form-table textarea').filter('[require],[valuepattern]').each(validateInput);
+	$('#form-table select').filter('[require],[valuepattern]').each(validateInput);
 
 	// Do someting before save
 	if(typeof beforeSaveRecord == 'function') {

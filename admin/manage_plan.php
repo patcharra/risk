@@ -25,6 +25,9 @@ $IDunit_riskchance 		= '';
 $IDunit_impact			= '';
 $riskchance_type 		= '';
 $impact_type 			= '';
+$d_insert				= '';
+$m_insert 				= '';
+$y_insert 				= '';
 
 if(isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
@@ -101,11 +104,19 @@ if(isset($_REQUEST['riskchance_type'])) {
 if(isset($_REQUEST['impact_type'])) {
 	$impact_type = $_REQUEST['impact_type'];
 }
-
-date_default_timezone_set("Asia/Bangkok");
+if(isset($_REQUEST['d_insert'])) {
+	$d_insert = $_REQUEST['d_insert'];
+}
+if(isset($_REQUEST['m_insert'])) {
+	$m_insert = $_REQUEST['m_insert'];
+}
+if(isset($_REQUEST['y_insert'])) {
+	$y_insert = $_REQUEST['y_insert'];
+}
+/*date_default_timezone_set("Asia/Bangkok");
 $day 	= date('d');
 $month 	= date('m');
-$year 	= date('Y');
+$year 	= date('Y');*/
 
 if($code == ''){
 	$sql = "INSERT INTO plan VALUES(NULL,
@@ -125,9 +136,9 @@ if($code == ''){
 								'$criteriaUnit',
 								'$time',
 								'$IDstrategy',
-								'$day',
-								'$month',
-								'$year',
+								'$d_insert',
+								'$m_insert',
+								'$y_insert',
 								'$IDunit_riskchance',
 								'$IDunit_impact',
 								'$riskchance_type',
@@ -291,9 +302,9 @@ if($code == ''){
 								criteriaUnit 			= '$criteriaUnit',
 								time 					= '$time',
 								IDstrategy 				= '$IDstrategy',
-								d_insert 				= '$day',
-								m_insert 				= '$month',
-								y_insert 				= '$year',
+								d_insert 				= '$d_insert',
+								m_insert 				= '$m_insert',
+								y_insert 				= '$y_insert',
 								IDunit_riskchance 		= '$IDunit_riskchance',
 								IDunit_impact 			= '$IDunit_impact',
 								riskchance_type			= '$riskchance_type',
