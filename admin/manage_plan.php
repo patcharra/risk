@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $action 				= '';
 $code 					= '';
