@@ -112,6 +112,7 @@ if($rows > 0) {
 	var date_now 	= '<?=$date_now?>';
 	var month_now 	= '<?=$month_now?>';
 	var year_now 	= '<?=$year_now?>';
+	var time_year 	= '<?=$time_year?>';
 
 	$(document).ready(function(){
 		$('#addRiskFactorBtn').click(addRiskfacName);
@@ -182,6 +183,12 @@ if($rows > 0) {
 			$('#y_insert').val(parseInt(year_now)+543);
 		} else {
 			$('#y_insert').val(y_insert);
+		}
+
+		if(time_year == '') {
+			$('#time_year').val(parseInt(year_now)+543);
+		} else {
+			$('#time_year').val(time_year);
 		}
 	});
 
@@ -636,7 +643,16 @@ if($rows > 0) {
             <tr>
 			    <td colspan="2">
 				    <label class="input-required">ระยะเวลาดำเนินการ</label>
-				    <input id="time" name="time" type="text" class="form-input full" value="<?=$planRow['time']?>" require>
+				    <input id="time" name="time" type="text" class="form-input" value="<?=$planRow['time']?>" require>
+				    <select id="time_year" name="time_year" class="form-input" value="<?=$planRow['time_year']?>">
+	    				<?php
+	    				for($i=2556; $i<=2590; $i++) {
+	    					?>
+	    					<option value="<?=$i?>"><?=$i?></option>
+	    					<?php
+	    				}
+	    				?>
+	    			</select>
 			    </td>
 		    </tr>
             <tr class="errMsgRow">

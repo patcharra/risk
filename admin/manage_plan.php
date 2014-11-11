@@ -17,6 +17,7 @@ $target 				= '';
 $accept_risk 			= '';
 $deviation_accept_risk 	= '';
 $time 					= '';
+$time_year 				= '';
 $IDobj 					= '';
 $objDtl 				= '';
 $IDrtg 					= '';
@@ -67,6 +68,9 @@ if(isset($_REQUEST['deviation_accept_risk'])) {
 }
 if(isset($_REQUEST['time'])) {
 	$time = $_REQUEST['time'];
+}
+if(isset($_REQUEST['time_year'])) {
+	$time_year = $_REQUEST['time_year'];
 }
 if(isset($_REQUEST['IDobj'])) {
 	$IDobj = $_REQUEST['IDobj'];
@@ -141,6 +145,7 @@ if($code == ''){
 								'$criteriaValue',
 								'$criteriaUnit',
 								'$time',
+								'$time_year',
 								'$IDstrategy',
 								'$d_insert',
 								'$m_insert',
@@ -307,6 +312,7 @@ if($code == ''){
 								criteriaValue 			= '$criteriaValue',
 								criteriaUnit 			= '$criteriaUnit',
 								time 					= '$time',
+								time_year 				= '$time_year',
 								IDstrategy 				= '$IDstrategy',
 								d_insert 				= '$d_insert',
 								m_insert 				= '$m_insert',
