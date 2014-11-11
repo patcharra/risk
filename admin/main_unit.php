@@ -55,7 +55,6 @@ if(isset($_POST["sub"])){
 		echo "<font color='red' size='2'>กรุณากรอกข้อมูลให้ครบถ้วน<br></font>";
 	}else{
 	$tblname = "unit"; 
-	
 
 	$sql = "insert into $tblname (unitName) values ('".$_POST["unitname"]."')"; 
 	$dbquery = mysql_query($sql, $dbConn);
