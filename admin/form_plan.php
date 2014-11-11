@@ -662,7 +662,7 @@ if($rows > 0) {
 	    			</select>
 	    			<select id="y_insert" name="y_insert" class="form-input">
 	    				<?php
-	    				for($i=2557; $i<=2590; $i++) {
+	    				for($i=2556; $i<=2590; $i++) {
 	    					?>
 	    					<option value="<?=$i?>"><?=$i?></option>
 	    					<?php
