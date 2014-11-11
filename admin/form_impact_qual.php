@@ -70,7 +70,8 @@ if($rows > 0) {
 			url: '../common/ajaxGetUnitNameOfPlan.php',
 			type: 'POST',
 			data: {
-				planID: planID
+				planID: planID,
+				field: 'IDunit_impact'
 			},
 			success:
 			function(response) {

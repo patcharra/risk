@@ -1,12 +1,16 @@
 <?php
 require('../common/common_header.php');
 $planID = '';
+$field 	= '';
 if(isset($_POST['planID'])) {
 	$planID = $_POST['planID'];
 }
+if(isset($_POST['field'])) {
+	$field = $_POST['field'];
+}
 $sql = "SELECT 	u.unitName 
 		FROM 	plan p, unit u 
-		WHERE 	p.IDunit_riskchance = u.IDunit 
+		WHERE 	p.$field = u.IDunit 
 				AND p.IDplan = '$planID'";
 $result = mysql_query($sql, $dbConn);
 $rows 	= mysql_num_rows($result);
