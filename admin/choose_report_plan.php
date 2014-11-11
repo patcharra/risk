@@ -40,7 +40,7 @@ if($rows > 0) {
 		    	<td>
 		    		<label class="input-required">แผนงาน</label>
 				    <select id="IDplan" name="IDplan" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($planList as $id => $name) {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>

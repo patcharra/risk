@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $code = '';
 if(isset($_REQUEST['code'])) {
@@ -48,17 +48,17 @@ if(isset($_REQUEST['code'])) {
             </tr>
 	    </tbody>
     </table>
-    <?
+    <?php
     if($code == '') {
     	?>
     	<button id="addBtn" type="button" class="myButton" style="margin-right:10px;">เพิ่ม</button>
-    	<?
+    	<?php
     } else {
     	?>
     	<button id="editBtn" type="button" class="myButton" style="margin-right:10px;">
     		แก้ไข
     	</button>
-    	<?
+    	<?php
     }
     ?>
     

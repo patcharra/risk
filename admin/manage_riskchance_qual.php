@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $action 	= '';
 $code 		= '';
@@ -32,11 +32,11 @@ if($code == ''){
 	if($result) {
 		?>
 		<script>window.location.href='show_riskchance_qual.php'</script>
-		<?
+		<?php
 	} else {
 		?>
 		<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลได้ คลิก <a href="show_riskchance_qual.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-		<?
+		<?php
 	}
 } else {
 	if($action == 'DELETE') {
@@ -45,11 +45,11 @@ if($code == ''){
 		if($result) {
 			?>
 			<script>window.location.href='show_riskchance_qual.php'</script>
-			<?
+			<?php
 		} else {
 			?>
 			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลได้ คลิก <a href="show_riskchance_qual.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-			<?
+			<?php
 		}
 	} else {
 		$sql = "UPDATE riskchance_qual SET detail = '$detail',
@@ -60,11 +60,11 @@ if($code == ''){
 		if($result) {
 			?>
 			<script>window.location.href='show_riskchance_qual.php'</script>
-			<?
+			<?php
 		} else {
 			?>
 			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลได้ คลิก <a href="show_riskchance_qual.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-			<?
+			<?php
 		}
 	}
 	

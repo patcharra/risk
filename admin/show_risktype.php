@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $sql = "SELECT 	IDtype,
 				typeName 
@@ -19,7 +19,7 @@ $rows	= mysql_num_rows($result);
 	<button class="myButton">เพิ่มประเภทความเสี่ยง</button>
 </a>
 <br><br>
-<?
+<?php
 if($rows > 0) {
 	?>
 	<table class="table-data">
@@ -31,7 +31,7 @@ if($rows > 0) {
 			</tr>
 		</thead>
 		<tbody>
-		<?
+		<?php
 		for($i=0; $i<$rows; $i++) {
 			$rsktypRow 	 = mysql_fetch_assoc($result);
 			$no 	 	 = $i+1;
@@ -50,18 +50,18 @@ if($rows > 0) {
 				<td align="center"><?=$no?></td>
 				<td><?=$rsktyp_name?></td>
 			</tr>
-			<?
+			<?php
 		}
 		?>
 		</tbody>
 	</table>
-	<?
+	<?php
 } else {
 	?>
 	<font color="red">
 		<i>ไม่พบข้อมูล</i>
 	</font>
-	<?
+	<?php
 }
 ?>
 </body>

@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $code = '';
 if(isset($_REQUEST['code'])) {
@@ -161,16 +161,16 @@ if($rowsPlan <= 0) {
 			    <td colspan="2">
 				    <label class="input-required">แผนงาน</label>
 				    <select id="IDplan" name="IDplan" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($planList as $id => $name) {
 				    		if($id == $rskchcRow['IDplan']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -181,16 +181,16 @@ if($rowsPlan <= 0) {
 			    <td colspan="2">
 				    <label class="input-required">ระดับ</label>
 				    <select id="level" name="level" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($levelList as $id => $name) {
 				    		if($id == $rskchcRow['level']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -255,17 +255,17 @@ if($rowsPlan <= 0) {
             </tr>
 	    </tbody>
     </table>
-    <?
+    <?php
     if($code == '') {
     	?>
     	<button id="addBtn" type="button" class="myButton" style="margin-right:10px;">เพิ่ม</button>
-    	<?
+    	<?php
     } else {
     	?>
     	<button id="editBtn" type="button" class="myButton" style="margin-right:10px;">
     		แก้ไข
     	</button>
-    	<?
+    	<?php
     }
     ?>
     

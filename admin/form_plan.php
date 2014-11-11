@@ -134,7 +134,7 @@ if($rows > 0) {
 			addObjective({});
 			addResultToGet({});
 		} else if(action == 'EDIT') {
-			<?
+			<?php
 			if(isset($riskFactorList)) {
 				foreach ($riskFactorList as $key => $value) {
 					?>
@@ -142,7 +142,7 @@ if($rows > 0) {
 						IDriskfac		: "<?=$value['IDriskfac']?>",
 						defaultValue	: "<?=$value['riskfacName']?>"
 					});
-					<?
+					<?php
 				}
 			}
 			if(isset($objectiveList)) {
@@ -152,7 +152,7 @@ if($rows > 0) {
 						IDobj			: "<?=$value['IDobj']?>",
 						defaultValue	: "<?=$value['detail']?>"
 					});
-					<?
+					<?php
 				}
 			}
 			if(isset($resultToGetList)) {
@@ -162,7 +162,7 @@ if($rows > 0) {
 						IDrtg			: "<?=$value['IDrtg']?>",
 						defaultValue	: "<?=$value['rtgDetail']?>"
 					});
-					<?
+					<?php
 				}
 			}
 			?>
@@ -377,16 +377,16 @@ if($rows > 0) {
 			    <td colspan="2">
 				    <label class="input-required">กลยุทธ์</label>
 				    <select id="IDstrategy" name="IDstrategy" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($strategyList as $id => $name) {
 				    		if($id == $plnRow['IDstrategy']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -397,16 +397,16 @@ if($rows > 0) {
 			    <td colspan="2">
 				    <label class="input-required">ประเภทความเสี่ยง</label>
 				    <select id="IDtype" name="IDtype" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($risktypeList as $id => $name) {
 				    		if($id == $plnRow['IDtype']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -470,16 +470,16 @@ if($rows > 0) {
 			    <td>
 				    <label class="input-required">หน่วยเกณฑ์วัด</label>
 				    <select id="criteriaUnit" name="criteriaUnit" class="form-input half">
-				    	<?
+				    	<?php
 				    	foreach ($unitList as $id => $name) {
 				    		if($id == $plnRow['criteriaUnit']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -522,11 +522,11 @@ if($rows > 0) {
 				    		if($id == $planRow['IDunit_riskchance']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -557,16 +557,16 @@ if($rows > 0) {
 		    	<td colspan="2">
 		    		<label class="input-required">หน่วยของผลกระทบต่อองค์กร</label>
 		    		<select id="IDunit_impact" name="IDunit_impact" class="form-input full">
-				    	<?
+				    	<?php
 				    	foreach ($unitList as $id => $name) {
 				    		if($id == $planRow['IDunit_impact']) {
 				    			?>
 					    		<option value="<?=$id?>" selected><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}  else {
 				    			?>
 					    		<option value="<?=$id?>"><?=$name?></option>
-					    		<?
+					    		<?php
 				    		}
 				    	}
 				    	?>
@@ -723,13 +723,13 @@ if($rows > 0) {
     if($code == '') {
     	?>
     	<button id="addBtn" type="button" class="myButton" style="margin-right:10px;">เพิ่ม</button>
-    	<?
+    	<?php
     } else {
     	?>
     	<button id="editBtn" type="button" class="myButton" style="margin-right:10px;">
     		แก้ไข
     	</button>
-    	<?
+    	<?php
     }
     ?>
     

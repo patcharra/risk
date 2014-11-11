@@ -1,4 +1,4 @@
-<?
+<?php
 require('../common/common_header.php');
 $action 	= '';
 $code 		= '';
@@ -20,11 +20,11 @@ if($code == ''){
 	if($result) {
 		?>
 		<script>window.location.href='show_strategy.php'</script>
-		<?
+		<?php
 	} else {
 		?>
 		<b>เกิดข้อผิดพลาด!</b> ไม่สามารถเพิ่มข้อมูลได้ คลิก <a href="show_strategy.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-		<?
+		<?php
 	}
 } else {
 	if($action == 'DELETE') {
@@ -33,11 +33,11 @@ if($code == ''){
 		if($result) {
 			?>
 			<script>window.location.href='show_strategy.php'</script>
-			<?
+			<?php
 		} else {
 			?>
 			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถลบข้อมูลได้ คลิก <a href="show_strategy.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-			<?
+			<?php
 		}
 	} else {
 		$sql = "UPDATE strategy SET strategyName = '$strategyName' WHERE IDstrategy = '$code'";
@@ -45,11 +45,11 @@ if($code == ''){
 		if($result) {
 			?>
 			<script>window.location.href='show_strategy.php'</script>
-			<?
+			<?php
 		} else {
 			?>
 			<b>เกิดข้อผิดพลาด!</b> ไม่สามารถแก้ไขข้อมูลได้ คลิก <a href="show_strategy.php">ย้อนกลับ</a> เพื่อกลับไปหน้าดูข้อมูล
-			<?
+			<?php
 		}
 	}
 	
