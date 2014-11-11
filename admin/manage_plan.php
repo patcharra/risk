@@ -21,8 +21,8 @@ $IDobj 					= '';
 $objDtl 				= '';
 $IDrtg 					= '';
 $rtgDetail 				= '';
-$IDunit_riskchance 		= '';
-$IDunit_impact			= '';
+$IDunit_riskchance 		= "''";
+$IDunit_impact			= "''";
 $riskchance_type 		= '';
 $impact_type 			= '';
 $d_insert				= '';
@@ -93,16 +93,22 @@ if(isset($_REQUEST['targetValue2'])) {
 	$targetValue2 = $_REQUEST['targetValue2'];
 }
 if(isset($_REQUEST['IDunit_riskchance'])) {
-	$IDunit_riskchance = $_REQUEST['IDunit_riskchance'];
+	$IDunit_riskchance = "'".$_REQUEST['IDunit_riskchance']."'";
 }
 if(isset($_REQUEST['IDunit_impact'])) {
-	$IDunit_impact = $_REQUEST['IDunit_impact'];
+	$IDunit_impact = "'".$_REQUEST['IDunit_impact']."'";
 }
 if(isset($_REQUEST['riskchance_type'])) {
 	$riskchance_type = $_REQUEST['riskchance_type'];
+	if($riskchance_type == 'qual') {
+		$IDunit_riskchance = 'NULL';
+	}
 }
 if(isset($_REQUEST['impact_type'])) {
 	$impact_type = $_REQUEST['impact_type'];
+	if($impact_type == 'qual') {
+		$IDunit_impact = 'NULL';
+	}
 }
 if(isset($_REQUEST['d_insert'])) {
 	$d_insert = $_REQUEST['d_insert'];
@@ -139,8 +145,8 @@ if($code == ''){
 								'$d_insert',
 								'$m_insert',
 								'$y_insert',
-								'$IDunit_riskchance',
-								'$IDunit_impact',
+								".$IDunit_riskchance.",
+								".$IDunit_impact.",
 								'$riskchance_type',
 								'$impact_type' )";
 	$result = mysql_query($sql, $dbConn);
@@ -305,11 +311,17 @@ if($code == ''){
 								d_insert 				= '$d_insert',
 								m_insert 				= '$m_insert',
 								y_insert 				= '$y_insert',
-								IDunit_riskchance 		= '$IDunit_riskchance',
-								IDunit_impact 			= '$IDunit_impact',
+								IDunit_riskchance 		= ".$IDunit_riskchance.",
+								IDunit_impact 			= ".$IDunit_impact.",
 								riskchance_type			= '$riskchance_type',
 								impact_type				= '$impact_type' 
 							WHERE IDplan = '$code'";
+		if($riskchance_type != '') {
+			$sql = str_replace("'$IDunit_riskchance'", 'NULL', $sql);
+		}
+		if($impact_type != '') {
+			$sql = str_replace("'$IDunit_impact'", 'NULL', $sql);
+		}
 		$result = mysql_query($sql, $dbConn);
 		if(!$result) {
 			?>

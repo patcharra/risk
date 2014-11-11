@@ -118,6 +118,16 @@ if($rows > 0) {
 		$('#addObjectiveBtn').click(addObjective);
 		$('#addResultToGetBtn').click(addResultToGet);
 
+		$('#riskchance_type').change(function() {
+			showOrhideIDUnitRiskchance();
+		});
+		$('#impact_type').change(function() {
+			showOrhideIDUnitImpact();
+		});
+
+		showOrhideIDUnitRiskchance();
+		showOrhideIDUnitImpact();
+
 		if(action == 'ADD') {
 			addRiskfacName({});
 			addObjective({});
@@ -321,6 +331,21 @@ if($rows > 0) {
     		tr.remove();
     	}
     }
+
+    function showOrhideIDUnitRiskchance() {
+    	if($('#riskchance_type').val() == 'qual') {
+				$('#IDunit_riskchance_row').css('display', 'none');
+			} else {
+				$('#IDunit_riskchance_row').css('display', 'table-row');
+			}
+    }
+    function showOrhideIDUnitImpact() {
+    	if($('#impact_type').val() == 'qual') {
+				$('#IDunit_impact_row').css('display', 'none');
+			} else {
+				$('#IDunit_impact_row').css('display', 'table-row');
+			}
+    }
 	</script>
 </head>
 <body>
@@ -481,7 +506,7 @@ if($rows > 0) {
             		</select>
             	</td>
             </tr>
-		    <tr>
+		    <tr id="IDunit_riskchance_row">
 		    	<td colspan="2">
 		    		<label class="input-required">หน่วยของโอกาสจะเกิดความเสี่ยง</label>
 		    		<select id="IDunit_riskchance" name="IDunit_riskchance" class="form-input full">
@@ -521,7 +546,7 @@ if($rows > 0) {
             		</select>
             	</td>
             </tr>
-		    <tr>
+		    <tr id="IDunit_impact_row">
 		    	<td colspan="2">
 		    		<label class="input-required">หน่วยของผลกระทบต่อองค์กร</label>
 		    		<select id="IDunit_impact" name="IDunit_impact" class="form-input full">
