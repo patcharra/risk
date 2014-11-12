@@ -69,7 +69,7 @@ $y=date('Y')+543;
 if(isset($_POST["sub"])){
 	$id= $_POST["plan"];
 		
-	echo "<script type='text/javascript'>window.location.href = 'riskchance.php?id=".$id."';</script>";
+	echo "<script type='text/javascript'>window.location.href = 'riskchance.php?id=".$id."&q=".$_POST["quarter"];."';</script>";
 	
 	
 }
