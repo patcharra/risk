@@ -1,5 +1,6 @@
 <?php
-
+	$id=$_REQUEST["id"];
+	$q=$_REQUEST["q"];
 	$tblname = "results_activity"; 
 
 	$sql = "insert into $tblname (IDplan,quarter,year,date,resultQuan,IDunitQuan,IDemp) values ('".$_POST["unitname"]."')"; 
