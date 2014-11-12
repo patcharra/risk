@@ -22,7 +22,7 @@ td{font-family:arial, sans-serif; font-size:15px;}
 <?php
 require('../common/common_header.php');
 
-$query		= "select IDplan,planName,y_insert from plan"; 
+$query		= "select IDplan,planName from plan"; 
 $query_db	= mysql_query($query, $dbConn) or die(mysql_error());
 $row_db		= mysql_fetch_assoc($query_db);//เก็บผลการประมวงผลลงตัวแปร $row_db
 $count		=1;
@@ -54,7 +54,9 @@ $y=date('Y')+543;
 
 
 
-<tr><td colspan='2'><center><input type="submit" name="sub" value="เลือก"></center></td></tr>
+<tr><td colspan='4'><center><input type="submit" name="sub" value="เลือก"></center></td></tr>
+
+
 
 </form>
 </table>
@@ -78,6 +80,13 @@ if($id!=null){
 	$query2		= "select riskchance_type,unitName,IDplan,planName from plan p,unit u where p.IDplan =".$idnew." and p.IDunit_riskchance=u.IDunit"; 
 	$query_db2	= mysql_query($query2, $dbConn) or die(mysql_error());
 	$row_db2		= mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
+	
+
+	$query22		= "select riskchance_type,IDplan,planName from plan p where p.IDplan =".$idnew; 
+	$query_db22	= mysql_query($query22, $dbConn) or die(mysql_error());
+	$row_db22		= mysql_fetch_assoc($query_db22);//เก็บผลการประมวงผลลงตัวแปร $row_db
+
+	echo $row_db2['riskchance_type'];
 	if($row_db2['riskchance_type'] == 'quan'){
 		?>
 		<br>
@@ -90,7 +99,7 @@ if($id!=null){
 		</table>
 		<?php
 	}
-	else if($row_db2['riskchance_type'] == 'qual'){
+	else if($row_db22['riskchance_type'] == 'qual'){
 
 		$query3		= "select detail,level,IDrcl from riskchance_qual where IDplan =".$idnew; 
 		$query_db3	= mysql_query($query3, $dbConn) or die(mysql_error());
@@ -100,7 +109,7 @@ if($id!=null){
 
 
 		<br>
-		ชื่อแผนงาน  :  <?=$row_db2['planName']?><br> 
+		ชื่อแผนงาน  :  <?=$row_db22['planName']?><br> 
 
 		<table>
 		<form method="post" action="insert_riskchance_qual.php">
