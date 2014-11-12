@@ -4,10 +4,9 @@ $sql = "SELECT 	i.IDimQl,
 				i.detail,
 				i.level,
 				l.mean levelMean,
-				p.planName,
-				u.unitName 
-		FROM 	impact_qual i, plan p, unit u, level_and_meanp l 
-		WHERE 	i.IDplan = p.IDplan AND p.IDunit_impact = u.IDunit AND i.level = l.levelP";
+				p.planName 
+		FROM 	impact_qual i, plan p, level_and_meanp l 
+		WHERE 	i.IDplan = p.IDplan AND i.level = l.levelP";
 $result = mysql_query($sql, $dbConn);
 $rows	= mysql_num_rows($result);
 ?>

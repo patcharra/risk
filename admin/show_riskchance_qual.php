@@ -4,10 +4,9 @@ $sql = "SELECT 	r.IDrcl,
 				r.detail,
 				r.level,
 				l.mean levelMean,
-				p.planName,
-				u.unitName 
-		FROM 	riskchance_qual r, plan p, unit u, level_and_meano l 
-		WHERE 	r.IDplan = p.IDplan AND p.IDunit_riskchance = u.IDunit AND r.level = l.levelO";
+				p.planName 
+		FROM 	riskchance_qual r, plan p, level_and_meano l 
+		WHERE 	r.IDplan = p.IDplan AND r.level = l.levelO";
 $result = mysql_query($sql, $dbConn);
 $rows	= mysql_num_rows($result);
 ?>
