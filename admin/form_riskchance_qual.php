@@ -6,10 +6,9 @@ if(isset($_REQUEST['code'])) {
 	$title	= 'แก้ไขข้อมูลโอกาสเกิดความเสี่ยงเชิงคุณภาพ';
 
 	$code 	= $_REQUEST['code'];
-	$sql 	= "SELECT 	r.*,
-						u.unitName 
-				FROM 	riskchance_qual r, plan p, unit u  
-				WHERE 	r.IDplan = p.IDplan AND p.IDunit_riskchance = u.IDunit  
+	$sql 	= "SELECT 	r.* 
+				FROM 	riskchance_qual r, plan p 
+				WHERE 	r.IDplan = p.IDplan 
 						AND r.IDrcl = '$code'";
 	$result = mysql_query($sql, $dbConn);
 	$rows	= mysql_num_rows($result);

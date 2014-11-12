@@ -2,7 +2,8 @@
 require('../common/common_header.php');
 $sql = "SELECT 	IDplan,
 				planName,
-				time 
+				time,
+				time_year 
 		FROM 	plan";
 $result = mysql_query($sql, $dbConn);
 $rows	= mysql_num_rows($result);
@@ -39,7 +40,6 @@ if($rows > 0) {
 			$no 	 	 = $i+1;
 			$IDplan 	 = $plnRow['IDplan'];
 			$planName 	 = $plnRow['planName'];
-			$time 		 = $plnRow['time'];
 			?>
 			<tr>
 				<td class="action-col">
@@ -52,7 +52,7 @@ if($rows > 0) {
 				</td>
 				<td align="center"><?=$no?></td>
 				<td><?=$planName?></td>
-				<td><?=$time?></td>
+				<td><?=$plnRow['time']?> <?=$plnRow['time_year']?></td>
 			</tr>
 			<?php
 		}
