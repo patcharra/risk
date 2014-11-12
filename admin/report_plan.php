@@ -124,7 +124,7 @@ $sql = "SELECT 		ag.agenName
 		FROM 		plan p, risk_manage_plan r, assignment am, agency ag 
 		WHERE 		p.IDplan = r.IDplan AND r.IDrmp = am.IDrmp AND am.IDagen = ag.IDagen 
 					AND p.IDplan = '$code'";
-echo $sql;
+//echo $sql;
 
 
 
