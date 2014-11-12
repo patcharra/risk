@@ -8,14 +8,18 @@ if(isset($_POST['IDplan'])) {
 // Get plan data
 $sql = "SELECT 	p.*,
 				t.typeName,
-				s.strategyName 
-		FROM 	plan p, risktype t, strategy s 
+				s.strategyName,
+				u.unitName 
+		FROM 	plan p, risktype t, strategy s, unit u 
 		WHERE 	p.IDtype = t.IDtype AND p.IDstrategy = s.IDstrategy 
+				AND p.criteriaUnit = u.IDunit 
 				AND p.IDplan = '$code'";
 $result = mysql_query($sql, $dbConn);
 $rows = mysql_num_rows($result);
 if($rows > 0) {
 	$planRow = mysql_fetch_assoc($result);
+	$planRow['criteriaDetail'] = str_replace('%u', $planRow['unitName'], $planRow['criteriaDetail']);
+	$planRow['criteriaDetail'] = str_replace('%v', number_format($planRow['criteriaValue']), $planRow['criteriaDetail']);
 }
 
 // Get risk_factor data
@@ -55,24 +59,72 @@ if($planRow['riskchance_type'] == 'quan') {
 $result = mysql_query($sql, $dbConn);
 $rows = mysql_num_rows($result);
 if($rows > 0) {
-	$riskchanceList = array();
 	for($i=0; $i<$rows; $i++) {
 		$tmpRow = mysql_fetch_assoc($result);
 
 		if($planRow['riskchance_type'] == 'quan') {
 			$tmpRow['detail'] = str_replace('%u', $tmpRow['unitName'], $tmpRow['detail']);
-			$tmpRow['detail'] = str_replace('%v', $tmpRow['quantity'], $tmpRow['detail']);
-			$tmpRow['detail'] = str_replace('%vmin', $tmpRow['quantitymin'], $tmpRow['detail']);
-			$tmpRow['detail'] = str_replace('%vmax', $tmpRow['quantitymax'], $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%v', number_format($tmpRow['quantity']), $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%vmin', number_format($tmpRow['quantitymin']), $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%vmax', number_format($tmpRow['quantitymax']), $tmpRow['detail']);
 		}
 
 		$tableOandP[$tmpRow['levelO']]['riskchance'] = array(
-			'levelO' 		=> $tmpRow['levelO'],
+			'level' 		=> $tmpRow['levelO'],
 			'mean' 	 		=> $tmpRow['mean'],
 			'detail' 		=> $tmpRow['detail']
 		);
 	}
 }
+
+// Get impact data
+if($planRow['impact_type'] == 'quan') {
+	$sql ="SELECT 		l.levelP,
+						l.mean,
+						i.detail,
+						i.quantity,
+						i.quantitymin,
+						i.quantitymax,
+						u.unitName 
+			FROM 		impact_quan i, plan p, unit u, level_and_meanp l 
+			WHERE 		i.IDplan = p.IDplan AND i.level = l.levelP 
+						AND p.IDunit_impact = u.IDunit 
+			ORDER BY 	l.levelP DESC";
+} else {
+	$sql ="SELECT 		l.levelP,
+						l.mean,
+						i.detail 
+			FROM 		impact_qual i, plan p, level_and_meanp l 
+			WHERE 		i.IDplan = p.IDplan AND i.level = l.levelP 
+			ORDER BY 	l.levelP DESC";
+}
+$result = mysql_query($sql, $dbConn);
+$rows = mysql_num_rows($result);
+if($rows > 0) {
+	for($i=0; $i<$rows; $i++) {
+		$tmpRow = mysql_fetch_assoc($result);
+
+		if($planRow['impact_type'] == 'quan') {
+			$tmpRow['detail'] = str_replace('%u', $tmpRow['unitName'], $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%v', number_format($tmpRow['quantity']), $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%vmin', number_format($tmpRow['quantitymin']), $tmpRow['detail']);
+			$tmpRow['detail'] = str_replace('%vmax', number_format($tmpRow['quantitymax']), $tmpRow['detail']);
+		}
+
+		$tableOandP[$tmpRow['levelP']]['impact'] = array(
+			'level' 		=> $tmpRow['levelP'],
+			'mean' 	 		=> $tmpRow['mean'],
+			'detail' 		=> $tmpRow['detail']
+		);
+	}
+}
+
+// Get assignment data
+$sql = "SELECT 		ag.agenName 
+		FROM 		plan p, risk_manage_plan r, assignment am, agency ag 
+		WHERE 		p.IDplan = r.IDplan AND r.IDrmp = am.IDrmp AND am.IDagen = ag.IDagen 
+					AND p.IDplan = '$code'";
+echo $sql;
 
 
 
@@ -176,6 +228,10 @@ if($rows > 0) {
 			</td>
 		</tr>
 		<tr>
+			<td><b>เกณฑ์วัด</b></td>
+			<td><?=$planRow['criteriaDetail']?></td>
+		</tr>
+		<tr>
 			<td colspan="2">
 				<table style="float:left;" class="tableOandP">
 					<thead>
@@ -216,5 +272,32 @@ if($rows > 0) {
 		</tr>
 	</tbody>
 </table>
+
+<br><br>
+<b>1. หลักการและเหตุผล</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['rationale']?></p>
+<br>
+
+<b>2. วัตถุประสงค์</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['rationale']?></p>
+<br>
+
+<b>3. เป้าหมาย</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['target']?></p>
+<br>
+
+<b>4. ความเสี่ยงที่ยอมรับได้</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['accept_risk']?></p>
+<br>
+
+<b>5. ช่วงเบี่ยงเบนความเสี่ยงที่ยอมรับได้</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['deviation_accept_risk']?></p>
+<br>
+
+<b>6. ระยะเวลาดำเนินการ</b>
+<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><b><?=$planRow['time']?> <?=$planRow['time_year']?></b></p>
+<br>
+
+<b>7. ผู้รับผิดชอบ</b>
 </body>
 </html>
