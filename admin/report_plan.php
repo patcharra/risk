@@ -1,4 +1,9 @@
 <?php
+/*$strWordFileName = "Word ไฟล์ง่ายนิดเดียว.doc";
+header("Content-Type: application/vnd.ms-word; name=\"$strWordFileName\"");
+header("Content-Disposition: inline; filename=\"$strWordFileName\"");
+header("Pragma: no-cache");*/
+
 require('../common/common_header.php');
 $code = '';
 if(isset($_POST['IDplan'])) {
@@ -23,13 +28,24 @@ if($rows > 0) {
 }
 
 // Get risk_factor data
-$sql = "SELECT riskfacName FROM risk_factor WHERE IDplan ='$code'";
+$sql = "SELECT riskfacName FROM risk_factor WHERE IDplan ='$code' ORDER BY IDriskfac";
 $result = mysql_query($sql, $dbConn);
 $rows = mysql_num_rows($result);
 if($rows > 0) {
 	$riskFactorList = array();
 	for($i=0; $i<$rows; $i++) {
 		array_push($riskFactorList, mysql_fetch_assoc($result));
+	}
+}
+
+// Get results_to_get data
+$sql = "SELECT rtgDetail FROM results_to_get WHERE IDplan ='$code' ORDER BY IDrtg";
+$result = mysql_query($sql, $dbConn);
+$rows = mysql_num_rows($result);
+if($rows > 0) {
+	$rtgList = array();
+	for($i=0; $i<$rows; $i++) {
+		array_push($rtgList, mysql_fetch_assoc($result));
 	}
 }
 
@@ -124,9 +140,14 @@ $sql = "SELECT 		ag.agenName
 		FROM 		plan p, risk_manage_plan r, assignment am, agency ag 
 		WHERE 		p.IDplan = r.IDplan AND r.IDrmp = am.IDrmp AND am.IDagen = ag.IDagen 
 					AND p.IDplan = '$code'";
-//echo $sql;
-
-
+$result = mysql_query($sql, $dbConn);
+$rows = mysql_num_rows($result);
+if($rows > 0) {
+	$agencyList = array();
+	for($i=0; $i<$rows; $i++) {
+		array_push($agencyList, mysql_fetch_assoc($result));
+	}
+}
 
 ?>
 <!DOCTYPE html>
@@ -233,12 +254,12 @@ $sql = "SELECT 		ag.agenName
 		</tr>
 		<tr>
 			<td colspan="2">
-				<table style="float:left;" class="tableOandP">
+				<table  class="tableOandP">
 					<thead>
 						<tr>
-							<th align="center" colspan="3">โอกาสเกิดความเสี่ยง</th>
-							<th class="break-table"></th>
-							<th align="center" colspan="3">ผลกระทบต่อองค์กร</th>
+							<th align="center" colspan="3" height="30px">โอกาสเกิดความเสี่ยง</th>
+							<th class="break-table" height="30px"></th>
+							<th align="center" colspan="3" height="30px">ผลกระทบต่อองค์กร</th>
 						</tr>
 						<tr>
 							<th align="center">ระดับ</th>
@@ -275,29 +296,50 @@ $sql = "SELECT 		ag.agenName
 
 <br><br>
 <b>1. หลักการและเหตุผล</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['rationale']?></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['rationale']?></p>
 <br>
 
 <b>2. วัตถุประสงค์</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['rationale']?></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['rationale']?></p>
 <br>
 
 <b>3. เป้าหมาย</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['target']?></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['target']?></p>
 <br>
 
 <b>4. ความเสี่ยงที่ยอมรับได้</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['accept_risk']?></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['accept_risk']?></p>
 <br>
 
 <b>5. ช่วงเบี่ยงเบนความเสี่ยงที่ยอมรับได้</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><?=$planRow['deviation_accept_risk']?></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['deviation_accept_risk']?></p>
 <br>
 
 <b>6. ระยะเวลาดำเนินการ</b>
-<p style="margin-top:0;"><span style="display:inline-block;width:80px;"></span><b><?=$planRow['time']?> <?=$planRow['time_year']?></b></p>
+<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<b><?=$planRow['time']?> <?=$planRow['time_year']?></b></p>
 <br>
 
 <b>7. ผู้รับผิดชอบ</b>
+<ul style="margin-top:0;">
+<?php
+foreach ($agencyList as $key => $agen) {
+	?>
+	<li type="square"><?=$agen['agenName']?></li>
+	<?php
+}
+?>
+</ul>
+
+<b>8. แผนปฏิบัติการ<?=$planRow['planName']?></b>
+<br>
+
+<b>9. ผลคาดว่าที่จะได้รับ</b><br>
+<?php
+foreach ($rtgList as $key => $value) {
+	?>
+	&emsp;&emsp;&emsp;&emsp;&emsp;- <?=$value['rtgDetail']?><br>
+	<?php
+}
+?>
 </body>
 </html>
