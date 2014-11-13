@@ -464,8 +464,8 @@ if($rows > 0) {
             </tr>
             <tr>
 			    <td>
-				    <label class="input-required">ค่าเกณฑ์วัด</label>
-				    <input id="criteriaValue" name="criteriaValue" type="text" class="form-input half" value="<?=$planRow['criteriaValue']?>" valuepattern="number" require>
+				    <label>ค่าเกณฑ์วัด</label>
+				    <input id="criteriaValue" name="criteriaValue" type="text" class="form-input half" value="<?=$planRow['criteriaValue']?>" valuepattern="number">
 			    </td>
 			    <td>
 				    <label class="input-required">หน่วยเกณฑ์วัด</label>
@@ -488,7 +488,6 @@ if($rows > 0) {
 		    </tr>
 		    <tr class="errMsgRow">
                 <td>
-                    <span id="err-criteriaValue-require" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัด</span>
                     <span id="err-criteriaValue-number" class="errInputMsg err-criteriaValue">โปรดกรอกค่าเกณฑ์วัดเป็นตัวเลข</span>
                 </td>
                 <td></td>
