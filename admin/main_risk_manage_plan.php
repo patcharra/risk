@@ -45,9 +45,9 @@ $count		=1;
 
 </SELECT><td></tr>
 <tr><td>ชื่อแผนบริหารความเสี่ยง</td><td><input type="text" name="rmpName"><font color='red'> * </font></td></tr>
+<tr><td>ระยะเวลาแล้วเสร็จ</td><td><input type="text" name="timesuccess"></td></tr>
 
 <tr><td colspan='4'><center><input type="submit" name="sub" value="เพิ่ม" onClick="return confirm(' คุณแน่ใจที่จะเพิ่มแผนบริหารความเสี่ยง?')"><input type="submit" name="clear" value="ยกเลิก"></center></td></tr>
-
 
 
 </form>
@@ -64,9 +64,9 @@ if(isset($_POST["sub"])){
 	}else{
 	$tblname = "risk_manage_plan"; 
 	
-	$sql = "insert into $tblname (rmpName,IDplan) 
+	$sql = "insert into $tblname (rmpName,IDplan,timesuccess) 
 	values 
-	('".$_POST["rmpName"]."','".$_POST["plan"]."')"; 
+	('".$_POST["rmpName"]."','".$_POST["plan"]."','".$_POST["timesuccess"]."')"; 
 	$dbquery = mysql_query($sql, $dbConn);
 	
 	mysql_close();
@@ -94,6 +94,7 @@ if($rows > 0){
 <th></th>
 <th align="center" >แผนงานที่</th>
 <th align="center" >รายการแผนบริหารความเสี่ยง และกิจกรรมการจัดการความเสี่ยง</th>
+<th align="center" >ระยะเวลาแล้วเสร็จ</th>
 
 </tr>
 
@@ -105,7 +106,7 @@ $row_db2 = mysql_fetch_assoc($query_db2);//เก็บผลการประ�
 do{ //คำสั้ง loop ของ php เพื่อนำข้อมูลมาแสดง
 $IDplan=$row_db2['IDplan'];
 
-$query3 = "select IDrmp,rmpName from risk_manage_plan where IDplan= $IDplan"; 
+$query3 = "select IDrmp,rmpName,timesuccess from risk_manage_plan where IDplan= $IDplan"; 
 $query_db3 = mysql_query($query3, $dbConn) or die(mysql_error());
 $row_db3 = mysql_fetch_assoc($query_db3);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
@@ -116,41 +117,56 @@ $row_db3 = mysql_fetch_assoc($query_db3);//เก็บผลการประ�
 <td></td><td></td><td></td>
 <td ><center>&nbsp;<?=$count++?></center></td>
 <td >&nbsp;<?=$row_db2['planName']?> </td>
+<td></td>
 </tr>
+
+
 <?php
+	$rows3 = mysql_num_rows($query_db3);
+	if($rows3 > 0){
+
 do{ //คำสั้ง loop ของ  แผนบริหารความเสี่ยง
-$query4 = "select IDrma,rmaDetail from risk_manage_activity where IDrmp= ".$row_db3['IDrmp']; 
+$query4 = "select IDrma,rmaDetail,timesuccess from risk_manage_activity where IDrmp= ".$row_db3['IDrmp']; 
 $query_db4 = mysql_query($query4, $dbConn) or die(mysql_error());
 $row_db4 = mysql_fetch_assoc($query_db4);//เก็บผลการประมวงผลลงตัวแปร $row_db
 $c=0;
 ?>
-<tr>	<td><a href="add_rma.php?id=<?=$row_db3['IDrmp']?>"><button>เพิ่มกิจกรรมการจัดการความเสี่ยง
+
+
+<tr><td><a href="add_rma.php?id=<?=$row_db3['IDrmp']?>"><button>เพิ่มกิจกรรมการจัดการความเสี่ยง
 	</button></a></td>
 	<td><a href="update_rmp.php?id=<?=$row_db3['IDrmp']?>"><button>แก้ไข</button></a></td>
 	<td><a href="delete_rmp.php?id=<?=$row_db3['IDrmp']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ <?=$row_db3['rmpName']?>?')"><button>ลบ</button></a></td>
 <td></td>
 
 	<td >&nbsp;&nbsp;&nbsp;-&nbsp;<?=$row_db3['rmpName']?> </td>
+	<td><?=$row_db3['timesuccess']?></td>
 </tr>
 
 	<?php
-	do{ //คำสั้ง loop ของ กิจกรรมการจัดการความเสี่ยง
+	$rows4 = mysql_num_rows($query_db4);
+	if($rows4 > 0){
+		do{ //คำสั้ง loop ของ กิจกรรมการจัดการความเสี่ยง
 
 	?>
 		<tr><td></td><td><a href="update_rma.php?id=<?=$row_db4['IDrma']?>"><button>แก้ไข</button></a></td>
 		<td><a href="delete_rma.php?id=<?=$row_db4['IDrma']?>" onClick="return confirm(' คุณแน่ใจที่จะลบ <?=$row_db4['rmaDetail']?>?')"><button>ลบ</button></a></td>
 		<td></td>
 		<td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=++$c?>. &nbsp;<?=$row_db4['rmaDetail']?> </td>
+			<td><?=$row_db4['timesuccess']?></td>
+
 		</tr>
 
 	<?php                                                                           
-	}while ($row_db4 = mysql_fetch_assoc($query_db4));
+		}while ($row_db4 = mysql_fetch_assoc($query_db4));
+	}
 	?>
 
 
 
 <?php                                                                           
-}while ($row_db3 = mysql_fetch_assoc($query_db3));
+	}while ($row_db3 = mysql_fetch_assoc($query_db3));
+}
 ?>
 
 

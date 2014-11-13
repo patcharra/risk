@@ -30,7 +30,7 @@ $y=date('Y')+543;
 ?>
 
 <br>
-<h3>นำเข้าข้อมูลโอกาสเกิดความเสี่ยง</h3><br><br>
+<h3>นำเข้าข้อมูลผลกระทบต่อองค์กร</h3><br><br>
 
 <table>
 <form method="post" action="###">
@@ -54,7 +54,7 @@ $y=date('Y')+543;
 
 
 
-<tr><td colspan='4'><center><input type="submit" name="sub" value="เลือก"></center></td></tr>
+<tr><td colspan='2'><center><input type="submit" name="sub" value="เลือก"></center></td></tr>
 
 
 
@@ -69,7 +69,7 @@ $y=date('Y')+543;
 if(isset($_POST["sub"])){
 	$id= $_POST["plan"];
 		
-	echo "<script type='text/javascript'>window.location.href = 'riskchance.php?id=".$id."&q=".$_POST["quarter"]."';</script>";
+	echo "<script type='text/javascript'>window.location.href = 'impact.php?id=".$id."&q=".$_POST["quarter"]."';</script>";
 	
 	
 }
@@ -80,7 +80,7 @@ if($id!=null){
 	$id=$_REQUEST["id"];
 	$q=$_REQUEST["q"];
 
-	$query2		= "select riskchance_type,unitName,IDunit_riskchance,IDplan,planName,time_year from plan p,unit u where p.IDplan =".$idnew." and p.IDunit_riskchance=u.IDunit"; 
+	$query2		= "select riskchance_type,unitName,IDplan,planName from plan p,unit u where p.IDplan =".$idnew." and p.IDunit_riskchance=u.IDunit"; 
 	$query_db2	= mysql_query($query2, $dbConn) or die(mysql_error());
 	$row_db2		= mysql_fetch_assoc($query_db2);//เก็บผลการประมวงผลลงตัวแปร $row_db
 	
@@ -89,25 +89,25 @@ if($id!=null){
 	$query_db22	= mysql_query($query22, $dbConn) or die(mysql_error());
 	$row_db22		= mysql_fetch_assoc($query_db22);//เก็บผลการประมวงผลลงตัวแปร $row_db
 
-	if($row_db2['riskchance_type'] == 'quan'){ //โอกาสเกิดความเสี่ยงเชิงปริมาณ
+	echo $row_db2['riskchance_type'];
+	if($row_db2['riskchance_type'] == 'quan'){
 		?>
 		<br>
 		<table>
 		ชื่อแผนงาน  :  <?=$row_db2['planName']?><br> 
-		<form method="post" action="insert_riskchance_quan.php">
+		<form method="post" action="insert_impact_quan.php">
 
 			 <input type="hidden" name="idplan" value="<?=$id?>">
 			 <input type="hidden" name="q" value="<?=$q?>">
-			 <input type="hidden" name="IDunitQuan" value="<?=$row_db2['IDunit_riskchance']?>">
-			 <input type="hidden" name="year" value="<?=$row_db2['time_year']?>">
 
-			 <tr><td>จำนวณ </td><td><input type="text" name="resultQuan">&nbsp;&nbsp;<?=$row_db2['unitName']?></td>
-			 <td ><center><input type="submit" name="sub_quan" value="บันทึก"></center></td></tr >
+
+			 <tr><td>จำนวณ </td><td><input type="text" name="quan">&nbsp;&nbsp;<?=$row_db2['unitName']?></td>
+			 <td ><center><input type="submit" name="sub_quan" value="บันทึก"></center></td></tr>
 		</form>
 		</table>
 		<?php
 	}
-	else if($row_db22['riskchance_type'] == 'qual'){ //โอกาสเกิดความเสี่ยงเชิงคุณภาพ
+	else if($row_db22['riskchance_type'] == 'qual'){
 
 		$query3		= "select detail,level,IDrcl from riskchance_qual where IDplan =".$idnew; 
 		$query_db3	= mysql_query($query3, $dbConn) or die(mysql_error());
@@ -120,7 +120,7 @@ if($id!=null){
 		ชื่อแผนงาน  :  <?=$row_db22['planName']?><br> 
 
 		<table>
-		<form method="post" action="insert_riskchance_qual.php">
+		<form method="post" action="insert_impact_qual.php">
 			 <tr><td>กรุณาเลือก... </td><td></td></tr>
 			 
 			 	<?php 
