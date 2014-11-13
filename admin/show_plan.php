@@ -42,12 +42,15 @@ if($rows > 0) {
 			$planName 	 = $plnRow['planName'];
 			?>
 			<tr>
-				<td class="action-col">
+				<td class="action-col" style="width:200px;">
 					<a href="form_plan.php?code=<?=$IDplan?>" >
 						<button>แก้ไข</button>
 					</a>
 					<a href="manage_plan.php?code=<?=$IDplan?>&action=DELETE" onClick="return confirm('คุณต้องการลบแผนงาน <?=$planName?> ใช่หรือไม่? ข้อมูลทั้งหมดที่เกี่ยวข้องกับแผนงานนี้จะถูกลบทั้งหมด')">
 						<button>ลบ</button>
+					</a>
+					<a href="plan_view_detail.php?IDplan=<?=$IDplan?>" target="_blank">
+						<button>ดูรายละเอียด</button>
 					</a>
 				</td>
 				<td align="center"><?=$no?></td>

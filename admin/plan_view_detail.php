@@ -6,8 +6,8 @@ header("Pragma: no-cache");*/
 
 require('../common/common_header.php');
 $code = '';
-if(isset($_POST['IDplan'])) {
-	$code = $_POST['IDplan'];
+if(isset($_REQUEST['IDplan'])) {
+	$code = $_REQUEST['IDplan'];
 }
 
 // Get plan data
@@ -38,6 +38,17 @@ if($rows > 0) {
 	}
 }
 
+// Get objective data
+$sql = "SELECT detail FROM objective WHERE IDplan ='$code' ORDER BY IDobj";
+$result = mysql_query($sql, $dbConn);
+$rows = mysql_num_rows($result);
+if($rows > 0) {
+	$objectiveList = array();
+	for($i=0; $i<$rows; $i++) {
+		array_push($objectiveList, mysql_fetch_assoc($result));
+	}
+}
+
 // Get results_to_get data
 $sql = "SELECT rtgDetail FROM results_to_get WHERE IDplan ='$code' ORDER BY IDrtg";
 $result = mysql_query($sql, $dbConn);
@@ -63,6 +74,7 @@ if($planRow['riskchance_type'] == 'quan') {
 			FROM 		riskchance_quan r, plan p, unit u, level_and_meano l 
 			WHERE 		r.IDplan = p.IDplan AND r.level = l.levelO 
 						AND p.IDunit_riskchance = u.IDunit 
+						AND r.IDplan = '$code' 
 			ORDER BY 	l.levelO DESC";
 } else {
 	$sql ="SELECT 		l.levelO,
@@ -70,6 +82,7 @@ if($planRow['riskchance_type'] == 'quan') {
 						r.detail 
 			FROM 		riskchance_qual r, plan p, level_and_meano l 
 			WHERE 		r.IDplan = p.IDplan AND r.level = l.levelO 
+						AND r.IDplan = '$code' 
 			ORDER BY 	l.levelO DESC";
 }
 $result = mysql_query($sql, $dbConn);
@@ -105,6 +118,7 @@ if($planRow['impact_type'] == 'quan') {
 			FROM 		impact_quan i, plan p, unit u, level_and_meanp l 
 			WHERE 		i.IDplan = p.IDplan AND i.level = l.levelP 
 						AND p.IDunit_impact = u.IDunit 
+						AND i.IDplan = '$code' 
 			ORDER BY 	l.levelP DESC";
 } else {
 	$sql ="SELECT 		l.levelP,
@@ -112,6 +126,7 @@ if($planRow['impact_type'] == 'quan') {
 						i.detail 
 			FROM 		impact_qual i, plan p, level_and_meanp l 
 			WHERE 		i.IDplan = p.IDplan AND i.level = l.levelP 
+						AND i.IDplan = '$code' 
 			ORDER BY 	l.levelP DESC";
 }
 $result = mysql_query($sql, $dbConn);
@@ -136,7 +151,7 @@ if($rows > 0) {
 }
 
 // Get assignment data
-$sql = "SELECT 		ag.agenName 
+$sql = "SELECT 		DISTINCT ag.agenName 
 		FROM 		plan p, risk_manage_plan r, assignment am, agency ag 
 		WHERE 		p.IDplan = r.IDplan AND r.IDrmp = am.IDrmp AND am.IDagen = ag.IDagen 
 					AND p.IDplan = '$code'";
@@ -149,12 +164,57 @@ if($rows > 0) {
 	}
 }
 
+// Get activity table
+$sql ="	SELECT 		rmp.IDrmp,
+					rmp.rmpName,
+					rma.IDrma,
+					rma.rmaDetail,
+					rma.timesuccess,
+					ac.agenInitname 
+	   	FROM 		plan p,
+	   				risk_manage_plan rmp,
+	   				risk_manage_activity rma,
+	   				assignment am, 
+	   				agency ac 
+		WHERE 		p.IDPlan = rmp.IDPlan 
+					AND rmp.IDrmp = rma.IDrmp 
+					AND rmp.IDrmp = am.IDrmp 
+					AND am.IDagen = ac.IDagen 
+					AND p.IDPlan ='$code' 
+		ORDER BY 	rmp.IDrmp, rma.IDrma";
+$result = mysql_query($sql, $dbConn);
+$rows = mysql_num_rows($result);
+if($rows >0) {
+	$activityList = array();
+	for($i=0; $i<$rows; $i++) {
+		$tmpRow = mysql_fetch_assoc($result);
+		$activityList[$tmpRow['IDrmp']]['rmpName'] = $tmpRow['rmpName'];
+
+		$activityList[$tmpRow['IDrmp']]['rma'][$tmpRow['IDrma']] = array(
+			'rmaDetail' 	=> $tmpRow['rmaDetail'],
+			'timesuccess' 	=> $tmpRow['timesuccess']
+		);
+
+		if(isset($activityList[$tmpRow['IDrmp']]['agency'])) {
+			if(strpos($activityList[$tmpRow['IDrmp']]['agency'], $tmpRow['agenInitname']) === false) {
+				$activityList[$tmpRow['IDrmp']]['agency'] .= $tmpRow['agenInitname']."<br>";
+			}
+		} else {
+			$activityList[$tmpRow['IDrmp']]['agency'] = $tmpRow['agenInitname']."<br>";
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 	<style type="text/css">
+		body{
+			font-family: TH SarabunPSK, TH Sarabun New, Cordia New sans-serif;
+			font-size: 18px;
+			padding: 40px;
+		}
 		.stat-star-black {
 			display: block;
 			position: absolute;
@@ -171,22 +231,43 @@ if($rows > 0) {
 			height: 25px;
 			margin-top: -2.5px;
 		}
-		.tableOandP {
+		.reportTable {
 			border-collapse: collapse;
 			width: 100%;
-			margin-top: 30px;
 		}
-		.tableOandP td, .tableOandP th{
+		.reportTable td, .reportTable th{
 			border: 1px solid #000;
 			padding: 5px;
 		}
-		.tableOandP td {
+		.reportTable td {
 			vertical-align: top;
 			text-align: left;
 		}
-		.tableOandP .break-table {
+		.reportTable .break-table {
 			border: none;
 			width: 20px;
+		}
+		.TableRiskProfile {
+			border-collapse: collapse;
+		}
+		.TableRiskProfile td.num {
+			border:1px solid #000;
+			text-align: left;
+			vertical-align: top;
+			width: 60px;
+			height: 50px;
+		}
+		.textAlignVer{
+			display:block;
+			writing-mode: tb-rl;
+			filter: flipv fliph;
+			-webkit-transform: rotate(-90deg); 
+			-moz-transform: rotate(-90deg);	
+			transform: rotate(-90deg); 
+			position:relative;
+			width:20px;
+			white-space:nowrap;
+			margin-bottom:10px;
 		}
 	</style>
 </head>
@@ -194,8 +275,8 @@ if($rows > 0) {
 <table style="width: 100%;">
 	<tbody>
 		<tr>
-			<td><b><font style="font-size:18px;">แผนงาน</font></b></td>
-			<td><b><font style="font-size:18px;"><?=$planRow['planName']?></font></b></td>
+			<td><b><font style="font-size:23px;">แผนงาน</font></b></td>
+			<td><b><font style="font-size:23px;"><?=$planRow['planName']?></font></b></td>
 		</tr>
 		<tr>
 			<td><b>กลยุทธ์</b></td>
@@ -237,7 +318,7 @@ if($rows > 0) {
 				<?=$planRow['statusValue1']?> x <?=$planRow['statusValue2']?> = 
 				<?php echo $planRow['statusValue1']*$planRow['statusValue2'];?>
 				&nbsp;&nbsp;&nbsp;&nbsp;(โอกาสเกิด x ผลกระทบ = ผลลัพธ์) 
-				<img src="../img/star-white.png" class="stat-star-black">
+				<img src="../img/star-black.png" class="stat-star-black">
 			</td>
 		</tr>
 		<tr>
@@ -249,12 +330,12 @@ if($rows > 0) {
 			</td>
 		</tr>
 		<tr>
-			<td><b>เกณฑ์วัด</b></td>
-			<td><?=$planRow['criteriaDetail']?></td>
+			<td><b>เกณฑ์วัด</b><br><br></td>
+			<td><?=$planRow['criteriaDetail']?><br><br></td>
 		</tr>
 		<tr>
 			<td colspan="2">
-				<table  class="tableOandP">
+				<table  class="reportTable">
 					<thead>
 						<tr>
 							<th align="center" colspan="3" height="30px">โอกาสเกิดความเสี่ยง</th>
@@ -264,11 +345,11 @@ if($rows > 0) {
 						<tr>
 							<th align="center">ระดับ</th>
 							<th align="center">ความหมาย</th>
-							<th align="center" width="300px;">รายละเอียด</th>
+							<th align="center" style="width:300px;">รายละเอียด</th>
 							<th class="break-table"></th>
 							<th align="center">ระดับ</th>
 							<th align="center">ความหมาย</th>
-							<th align="center" width="300px;">รายละเอียด</th>
+							<th align="center" style="width:300px;">รายละเอียด</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -278,11 +359,11 @@ if($rows > 0) {
 						<tr>
 							<td align="center"><?=$i?></td>
 							<td align="center"><?=$tableOandP[$i]['riskchance']['mean']?></td>
-							<td align="center" width="300px;"><?=$tableOandP[$i]['riskchance']['detail']?></td>
+							<td align="center" style="width:300px;"><?=$tableOandP[$i]['riskchance']['detail']?></td>
 							<td class="break-table"></td>
 							<td align="center"><?=$i?></td>
 							<td align="center"><?=$tableOandP[$i]['impact']['mean']?></td>
-							<td align="center" width="300px;"><?=$tableOandP[$i]['impact']['detail']?></td>
+							<td align="center" style="width:300px;"><?=$tableOandP[$i]['impact']['detail']?></td>
 						</tr>
 						<?php
 					}
@@ -293,14 +374,77 @@ if($rows > 0) {
 		</tr>
 	</tbody>
 </table>
+<br><br>
+
+<table class="TableRiskProfile" align="center">
+	<tbody>
+		<tr>
+			<td rowspan="8" style="vertical-align: bottom;padding-bottom: 2em;"><span class="textAlignVer">ผลกระทบหรือความรุนแรง</span></td>
+			<td colspan="6" align="center"><b>แผนภูมิความเสี่ยง (Risk Profile)</b><br><br></td>
+		</tr>
+		<?php
+		for($i=5; $i>0; $i--) {
+			echo "<tr><td></td><td align='center' style='width:80px;vertical-align:top;'>$i</td>";
+			for($j=1; $j<=5; $j++) {
+				$num = $i*$j;
+				if($num >= 16) {
+					$tdColor = 'bgcolor="red"';
+				} else if($num >= 12) {
+					$tdColor = 'bgcolor="orange"';
+				} else if($num >= 6) {
+					$tdColor = 'bgcolor="white"';
+				} else {
+					$tdColor = 'bgcolor="yellow"';
+				}
+				?>
+				<td class="num" <?=$tdColor?>>
+					<?=$num?><br>
+					<?php
+					if($planRow['statusValue1']*$planRow['statusValue1'] == $num) {
+						?>
+						<center><img src="../img/star-black.png" height="25px;"></center>
+						<?php
+					} else if($planRow['targetValue1']*$planRow['targetValue2'] == $num) {
+						?>
+						<center><img src="../img/star-white.png" height="25px;"></center>
+						<?php
+					}
+					?>
+				</td>
+				<?php
+			}
+			echo "</tr>";
+		}
+		?>
+		<tr>
+			<td colspan="2"></td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="5" align="center">โอกาสเกิดหรือความน่าจะเป็น</td>
+		</tr>
+	</tbody>
+</table>
 
 <br><br>
 <b>1. หลักการและเหตุผล</b>
 <p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['rationale']?></p>
 <br>
 
-<b>2. วัตถุประสงค์</b>
-<p style="margin-top:0;">&emsp;&emsp;&emsp;&emsp;&emsp;<?=$planRow['rationale']?></p>
+<b>2. วัตถุประสงค์</b><br>
+&emsp;&emsp;&emsp;&emsp;&emsp;
+<?php
+foreach ($objectiveList as $key => $obj) {
+	?>
+	- <?=$obj['detail']?><br>
+	<?php
+}
+?>
 <br>
 
 <b>3. เป้าหมาย</b>
@@ -320,7 +464,7 @@ if($rows > 0) {
 <br>
 
 <b>7. ผู้รับผิดชอบ</b>
-<ul style="margin-top:0;">
+<ul>
 <?php
 foreach ($agencyList as $key => $agen) {
 	?>
@@ -329,8 +473,53 @@ foreach ($agencyList as $key => $agen) {
 }
 ?>
 </ul>
+<br>
 
-<b>8. แผนปฏิบัติการ<?=$planRow['planName']?></b>
+&emsp;&emsp;&emsp;&emsp;<b>8. แผนปฏิบัติการ<?=$planRow['planName']?></b>
+<table class="reportTable">
+	<thead>
+		<tr>
+			<th>กิจกรรมการจัดการความเสี่ยง</th>
+			<th>ระยะเวลาดำเนินการ</th>
+			<th>ผู้รับผิดชอบ</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$actNo = 1;
+		foreach ($activityList as $key => $rmp) {
+			?>
+			<tr>
+				<td>
+					<?=$actNo?>.<?=$rmp['rmpName']?>
+					<ul>
+						<?php
+						foreach ($rmp['rma'] as $key => $act) {
+							?>
+							<li><?=$act['rmaDetail']?></li>
+							<?php
+						}
+						?>
+					</ul>
+				</td>
+				<td align="center" style="text-align:center;">
+					<br><br>
+					<?php
+						foreach ($rmp['rma'] as $key => $act) {
+							?>
+							<?=$act['timesuccess']?><br>
+							<?php
+						}
+						?>
+				</td>
+				<td><?=$rmp['agency']?></td>
+			</tr>
+			<?php
+			$actNo++;
+		}
+		?>
+	</tbody>
+</table>
 <br>
 
 <b>9. ผลคาดว่าที่จะได้รับ</b><br>
