@@ -219,17 +219,15 @@ if($rows >0) {
 			display: block;
 			position: absolute;
 			top: 0;
-			left: 400px;
-			height: 25px;
-			margin-top: -2.5px;
+			left: 300px;
+			height: 20px;
 		}
 		.stat-star-white {
 			display: block;
 			position: absolute;
 			top: 0;
 			left: 110px;
-			height: 25px;
-			margin-top: -2.5px;
+			height: 20px;
 		}
 		.reportTable {
 			border-collapse: collapse;
@@ -357,11 +355,43 @@ if($rows >0) {
 					for ($i=count($tableOandP); $i>0; $i--) {
 						?>
 						<tr>
-							<td align="center"><?=$i?></td>
+							<td align="center">
+								<?=$i?><br>
+								<center>
+								<?php
+								if($i == $planRow['statusValue1']) {
+									?>
+									<img src="../img/star-black.png" height="20px">
+									<?php
+								}
+								if($i == $planRow['targetValue1']) {
+									?>
+									<img src="../img/star-white.png" height="20px">
+									<?php
+								}
+								?>
+								</center>
+							</td>
 							<td align="center"><?=$tableOandP[$i]['riskchance']['mean']?></td>
 							<td align="center" style="width:300px;"><?=$tableOandP[$i]['riskchance']['detail']?></td>
 							<td class="break-table"></td>
-							<td align="center"><?=$i?></td>
+							<td align="center">
+								<?=$i?><br>
+								<center>
+								<?php
+								if($i == $planRow['statusValue2']) {
+									?>
+									<img src="../img/star-black.png" height="20px">
+									<?php
+								}
+								if($i == $planRow['targetValue2']) {
+									?>
+									<img src="../img/star-white.png" height="20px">
+									<?php
+								}
+								?>
+								</center>
+							</td>
 							<td align="center"><?=$tableOandP[$i]['impact']['mean']?></td>
 							<td align="center" style="width:300px;"><?=$tableOandP[$i]['impact']['detail']?></td>
 						</tr>
@@ -399,17 +429,20 @@ if($rows >0) {
 				?>
 				<td class="num" <?=$tdColor?>>
 					<?=$num?><br>
+					<center>
 					<?php
-					if($planRow['statusValue1']*$planRow['statusValue1'] == $num) {
+					if($i==$planRow['statusValue2'] && $j == $planRow['statusValue1']) {
 						?>
-						<center><img src="../img/star-black.png" height="25px;"></center>
+						<img src="../img/star-black.png" height="20px;">
 						<?php
-					} else if($planRow['targetValue1']*$planRow['targetValue2'] == $num) {
+					}
+					if($i==$planRow['targetValue2'] && $j == $planRow['targetValue1']) {
 						?>
-						<center><img src="../img/star-white.png" height="25px;"></center>
+						<img src="../img/star-white.png" height="20px;">
 						<?php
 					}
 					?>
+					</center>
 				</td>
 				<?php
 			}
